@@ -167,18 +167,19 @@ elif latest_score < 0:
     st.error(f"BEARISH 📉 (Score: {latest_score})")
 else:
     st.info("NEUTRAL ⚖️")
-# ============================
+# =========================
 # STEP 5: TRADE SIGNALS
-# ============================
+# =========================
 
 df["signal"] = 0
-df.loc[df["factor_score"] > 0, "signal"] = 1
-df.loc[df["factor_score"] < 0, "signal"] = -1
+df.loc[df["Factor_Score"] > 0, "signal"] = 1
+df.loc[df["Factor_Score"] < 0, "signal"] = -1
 
 df["signal_shift"] = df["signal"].shift(1)
 
 df["entry"] = (df["signal"] == 1) & (df["signal_shift"] != 1)
-df["exit"] = (df["signal"] == -1) & (df["signal_shift"] != -1)
+df["exit"]  = (df["signal"] == -1) & (df["signal_shift"] != -1)
+
 
 # -----------------------------
 # Metrics Row
