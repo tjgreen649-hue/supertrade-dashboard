@@ -197,6 +197,26 @@ price_fig.update_layout(
 )
 
 st.plotly_chart(price_fig, use_container_width=True)
+# =========================
+# STEP 4: FACTOR SCORE PLOT
+# =========================
+
+st.subheader("Factor Score")
+
+score_fig = px.line(
+    df,
+    x="Date",
+    y="factor_score",
+    title="Composite Factor Score",
+    markers=True
+)
+
+score_fig.update_layout(
+    height=250,
+    margin=dict(l=20, r=20, t=40, b=20)
+)
+
+st.plotly_chart(score_fig, use_container_width=True)
 
 # -----------------------------
 # Volume Chart
