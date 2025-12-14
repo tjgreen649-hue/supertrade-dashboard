@@ -43,10 +43,45 @@ starting_balance = st.sidebar.number_input(
     value=25_000,
     step=1000
 )
+st.sidebar.subheader("📐 Factors")
+
+show_sma = st.sidebar.checkbox("SMA (20)", value=True)
+show_ema = st.sidebar.checkbox("EMA (20)")
+show_rsi = st.sidebar.checkbox("RSI (14)")
+show_macd = st.sidebar.checkbox("MACD")
 
 # -----------------------------
 # Generate Sample Price Data
-# -----------------------------
+# ----------------------------- 
+#--------------------------
+# FACTOR CALCULATIONS
+# -------------------------
+
+# Simple Moving Average
+def sma(series, period=20):
+    return series.rolling(period).mean()
+
+# Exponential Moving Average
+def ema(series, period=20):
+    return series.ewm(span=period, adjust=False).mean()
+
+# RSI
+def rsi(series, period=14):
+    delta = series.diff()
+    gain = delta.clip(lower=0)
+    loss = -delta.clip(upper=0)
+    avg_gain = gain.rolling(period).mean()
+    avg_loss = loss.rolling(period).mean()
+    rs = avg_gain / avg_loss
+    return 100 - (100 / (1 + rs)))
+
+# MACD
+def macd(series, fast=12, slow=26, signal=9):
+    macd_line = ema(series, fast) - ema(series, slow)
+    signal_line = ema(macd_line, signal)
+    hist = macd_line - signal_line
+    return macd_line, signal_line, hist
+
 np.random.seed(42)
 
 dates = pd.date_range(
