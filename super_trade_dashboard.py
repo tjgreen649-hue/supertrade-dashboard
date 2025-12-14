@@ -196,28 +196,32 @@ price_fig.update_layout(
     margin=dict(l=20, r=20, t=40, b=20)
 )
 
-st.plotly_chart(price_fig, use_container_width=True)
 # ==============================
-# STEP 3: COMPOSITE FACTOR SCORE
+# STEP 4: FACTOR SCORE PLOT
 # ==============================
 
-df["factor_score"] = 0
+st.subheader("Factor Score")
 
-if show_sma:
-    df["sma_sig"] = df.apply(lambda r: sma_signal(r["Price"], r["SMA_20"]), axis=1)
-    df["factor_score"] += df["sma_sig"]
+if "factor_score" in df.columns and df["factor_score"].notna().any():
 
-if show_ema:
-    df["ema_sig"] = df.apply(lambda r: ema_signal(r["EMA_12"], r["EMA_26"]), axis=1)
-    df["factor_score"] += df["ema_sig"]
+    score_fig = px.line(
+        df,
+        x="Date",
+        y="factor_score",
+        title="Composite Factor Score",
+        markers=True
+    )
 
-if show_rsi:
-    df["rsi_sig"] = df["RSI_14"].apply(rsi_signal)
-    df["factor_score"] += df["rsi_sig"]
+    score_fig.update_layout(
+        height=250,
+        margin=dict(l=20, r=20, t=40, b=20)
+    )
 
-if show_macd:
-    df["macd_sig"] = df["MACD"].apply(lambda x: 1 if x > 0 else -1)
-    df["factor_score"] += df["macd_sig"]
+    st.plotly_chart(score_fig, use_container_width=True)
+
+else:
+    st.info("Enable at least one factor to display Factor Score.")
+
 
 # -----------------------------
 # Volume Chart
