@@ -49,6 +49,25 @@ show_sma = st.sidebar.checkbox("SMA (20)", value=True)
 show_ema = st.sidebar.checkbox("EMA (20)")
 show_rsi = st.sidebar.checkbox("RSI (14)")
 show_macd = st.sidebar.checkbox("MACD")
+# ===============================
+# FACTOR SIGNALS
+# ===============================
+
+def sma_signal(price, sma):
+    return 1 if price > sma else -1
+
+def ema_signal(ema_fast, ema_slow):
+    return 1 if ema_fast > ema_slow else -1
+
+def rsi_signal(rsi):
+    if rsi < 30:
+        return 1
+    elif rsi > 70:
+        return -1
+    return 0
+
+def macd_signal(macd, signal):
+    return 1 if macd > signal else -1
 
 # -----------------------------
 # Generate Sample Price Data
