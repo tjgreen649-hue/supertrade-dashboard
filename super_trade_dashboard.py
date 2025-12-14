@@ -73,7 +73,7 @@ def rsi(series, period=14):
     avg_gain = gain.rolling(period).mean()
     avg_loss = loss.rolling(period).mean()
     rs = avg_gain / avg_loss
-    return 100 - (100 / (1 + rs)))
+    return 100 - (100 / (1 + rs))
 
 # MACD
 def macd(series, fast=12, slow=26, signal=9):
