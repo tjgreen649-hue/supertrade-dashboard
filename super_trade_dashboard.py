@@ -219,10 +219,6 @@ if show_macd:
     df["macd_sig"] = df["MACD"].apply(lambda x: 1 if x > 0 else -1)
     df["factor_score"] += df["macd_sig"]
 
-
-
-st.plotly_chart(score_fig, use_container_width=True)
-
 # -----------------------------
 # Volume Chart
 # -----------------------------
