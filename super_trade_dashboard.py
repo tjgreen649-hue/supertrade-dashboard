@@ -117,6 +117,56 @@ df = pd.DataFrame({
     "Price": price,
     "Volume": volume
 })
+# ==========================
+# INDICATOR CALCULATIONS
+# ==========================
+
+df["SMA_20"] = sma(df["Price"], 20)
+df["EMA_20"] = ema(df["Price"], 20)
+df["EMA_50"] = ema(df["Price"], 50)
+df["RSI_14"] = rsi(df["Price"], 14)
+# ==========================
+# FACTOR SIGNALS
+# ==========================
+
+df["SMA_signal"] = df.apply(
+    lambda x: sma_signal(x["Price"], x["SMA_20"]) if show_sma else 0,
+    axis=1
+)
+
+df["EMA_signal"] = df.apply(
+    lambda x: ema_signal(x["EMA_20"], x["EMA_50"]) if show_ema else 0,
+    axis=1
+)
+
+df["RSI_signal"] = df["RSI_14"].apply(
+    lambda x: rsi_signal(x) if show_rsi else 0
+)
+# ==========================
+# FACTOR WEIGHTS
+# ==========================
+
+weights = {
+    "SMA_signal": 1.0,
+    "EMA_signal": 1.0,
+    "RSI_signal": 1.0
+}
+
+df["Factor_Score"] = (
+    df["SMA_signal"] * weights["SMA_signal"] +
+    df["EMA_signal"] * weights["EMA_signal"] +
+    df["RSI_signal"] * weights["RSI_signal"]
+)
+st.subheader("📊 Strategy Signal")
+
+latest_score = df["Factor_Score"].iloc[-1]
+
+if latest_score > 0:
+    st.success(f"BULLISH 📈 (Score: {latest_score})")
+elif latest_score < 0:
+    st.error(f"BEARISH 📉 (Score: {latest_score})")
+else:
+    st.info("NEUTRAL ⚖️")
 
 # -----------------------------
 # Metrics Row
