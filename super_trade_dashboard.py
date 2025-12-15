@@ -223,7 +223,7 @@ price_fig.add_scatter(
 
 price_fig.add_scatter(
     x=exits["Date"],
-    y=exits["Pricee"],
+    y=exits["Price"],
     mode="markers",
     marker=dict(symbol="triangle-down", size=14),
     name="Sell Exit"
