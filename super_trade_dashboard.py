@@ -208,6 +208,28 @@ price_fig.update_layout(
     height=400,
     margin=dict(l=20, r=20, t=40, b=20)
 )
+# === TRADE MARKERS (ENTRIES / EXITS) ===
+
+entries = df[df["entry"]]
+exits   = df[df["exit"]]
+
+price_fig.add_scatter(
+    x=entries["Date"],
+    y=entries["Close"],
+    mode="markers",
+    marker=dict(symbol="triangle-up", size=14),
+    name="Buy Entry"
+)
+
+price_fig.add_scatter(
+    x=exits["Date"],
+    y=exits["Close"],
+    mode="markers",
+    marker=dict(symbol="triangle-down", size=14),
+    name="Sell Exit"
+)
+
+st.plotly_chart(price_fig, use_container_width=True)
 
 # ==============================
 # STEP 4: FACTOR SCORE PLOT
