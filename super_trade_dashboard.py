@@ -215,7 +215,7 @@ exits   = df[df["exit"]]
 
 price_fig.add_scatter(
     x=entries["Date"],
-    y=entries["close"],
+    y=entries["Close"],
     mode="markers",
     marker=dict(symbol="triangle-up", size=14),
     name="Buy Entry"
@@ -223,7 +223,7 @@ price_fig.add_scatter(
 
 price_fig.add_scatter(
     x=exits["Date"],
-    y=exits["close"],
+    y=exits["Close"],
     mode="markers",
     marker=dict(symbol="triangle-down", size=14),
     name="Sell Exit"
