@@ -351,21 +351,13 @@ else:
     price_exit = None
     pnl_value = None
 
-trades = pd.DataFrame({
-    "Date": [
-        datetime.today() - timedelta(days=5),
-        datetime.today() - timedelta(days=2)
-    ],
-    "Symbol": [symbol, symbol],
-    "Side": ["BUY", "SELL"],
-    "Price": [
-    df["close"].iloc[-6],
-    df["close"].iloc[-3]
-],
-    
-    "Quantity": [10, 10],
-    "PnL": ["-", f"${(df['close'].iloc[-3] - df['close'].iloc[-6]) * 10:.2f}"]
-
+trade_log = pd.DataFrame({
+    "Date": ["Entry", "Exit"],
+    "Price": [price_entry, price_exit],
+    "PnL": [
+        "-",
+        f"${pnl_value:.2f}" if pnl_value is not None else "-"
+    ]
 })
 
 st.dataframe(trades, use_container_width=True)
