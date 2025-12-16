@@ -348,7 +348,7 @@ trades = pd.DataFrame({
     df["Close"].iloc[-6],
     df["Close"].iloc[-3]
 ],
-,
+    
     "Quantity": [10, 10],
     "PnL": ["—", f"${(price[-3] - price[-6]) * 10:.2f}"]
 })
