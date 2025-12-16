@@ -345,12 +345,12 @@ trades = pd.DataFrame({
     "Symbol": [symbol, symbol],
     "Side": ["BUY", "SELL"],
     "Price": [
-    df["Close"].iloc[-6],
-    df["Close"].iloc[-3]
+    df["close"].iloc[-6],
+    df["close"].iloc[-3]
 ],
     
     "Quantity": [10, 10],
-    "PnL": ["-", f"${(df['Close'].iloc[-3] - df['Close'].iloc[-6]) * 10:.2f}"]
+    "PnL": ["-", f"${(df['close'].iloc[-3] - df['close'].iloc[-6]) * 10:.2f}"]
 
 })
 
