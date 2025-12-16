@@ -26,7 +26,7 @@ st.sidebar.header("Controls")
 
 symbol = st.sidebar.selectbox(
     "Select Symbol",
-    ["AAPL", "MSFT", "TSLA", "NVDA", "SPY"]
+    ["AAPL", "MSFT", "TSLA", "NVDA", "SPY", "QQQ" ]
 )
 
 days = st.sidebar.slider(
