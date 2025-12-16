@@ -180,6 +180,46 @@ df["signal_shift"] = df["signal"].shift(1)
 df["entry"] = (df["signal"] == 1) & (df["signal_shift"] != 1)
 df["exit"]  = (df["signal"] == -1) & (df["signal_shift"] != -1)
 
+# === PAPER TRADING ENGINE ===
+
+balance = starting_balance
+position = 0
+entry_price = 0.0
+equity_curve = []
+trade_log = []
+
+for i, row in df.iterrows():
+    price = row["Close"]
+
+    # BUY
+    if row["entry"] and position == 0:
+        position = balance / price
+        entry_price = price
+        balance = 0
+
+        trade_log.append({
+            "Date": row["Date"],
+            "Type": "BUY",
+            "Price": price
+        })
+
+    # SELL
+    elif row["exit"] and position > 0:
+        balance = position * price
+        pnl = balance - (position * entry_price)
+        position = 0
+
+        trade_log.append({
+            "Date": row["Date"],
+            "Type": "SELL",
+            "Price": price,
+            "PnL": pnl
+        })
+
+    equity_curve.append(balance if position == 0 else position * price)
+
+df["Equity"] = equity_curve
+trades = pd.DataFrame(trade_log)
 
 # -----------------------------
 # Metrics Row
