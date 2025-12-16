@@ -189,7 +189,7 @@ equity_curve = []
 trade_log = []
 
 for i, row in df.iterrows():
-    price = row["Close"]
+    price = row["Price"]
 
     # BUY
     if row["entry"] and position == 0:
