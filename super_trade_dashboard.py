@@ -228,7 +228,7 @@ col1, col2, col3, col4 = st.columns(4)
 
 col1.metric("Symbol", symbol)
 col2.metric("Last Price", f"${price:.2f}")
-day_change = df["Close"].iloc[-1] - df["Close"].iloc[-2]
+day_change = df["close"].iloc[-1] - df["close"].iloc[-2]
 col3.metric("Day Change", f"{day_change:.2f}")
 col4.metric("Balance", f"${starting_balance:,.0f}")
 
