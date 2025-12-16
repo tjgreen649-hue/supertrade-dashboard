@@ -337,6 +337,20 @@ st.plotly_chart(vol_fig, use_container_width=True)
 # -----------------------------
 st.subheader("Trade Log")
 
+# =========================
+# SAFE TRADE LOG DATA
+# =========================
+min_rows_needed = 6
+
+if len(df) >= min_rows_needed:
+    price_entry = df["close"].iloc[-6]
+    price_exit = df["close"].iloc[-3]
+    pnl_value = (price_exit - price_entry) * 10
+else:
+    price_entry = None
+    price_exit = None
+    pnl_value = None
+
 trades = pd.DataFrame({
     "Date": [
         datetime.today() - timedelta(days=5),
