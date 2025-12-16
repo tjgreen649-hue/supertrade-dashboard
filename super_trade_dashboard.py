@@ -350,7 +350,8 @@ trades = pd.DataFrame({
 ],
     
     "Quantity": [10, 10],
-    "PnL": ["—", f"${(price[-3] - price[-6]) * 10:.2f}"]
+    "PnL": ["-", f"${(df['Close'].iloc[-3] - df['Close'].iloc[-6]) * 10:.2f}"]
+
 })
 
 st.dataframe(trades, use_container_width=True)
