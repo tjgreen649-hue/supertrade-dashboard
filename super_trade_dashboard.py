@@ -309,6 +309,35 @@ if "factor_score" in df.columns and df["factor_score"].notna().any():
 
     st.plotly_chart(score_fig, use_container_width=True)
 
+# =========================
+# MARKET STRUCTURE + ORDER BLOCKS
+# =========================
+
+# Market Structure Break (simple swing logic)
+df["swing_high"] = df["High"] > df["High"].shift(1)
+df["swing_low"] = df["Low"] < df["Low"].shift(1)
+
+df["bull_msb"] = (
+    df["swing_high"] &
+    (df["High"] > df["High"].rolling(5).max().shift(1))
+)
+
+# Bullish Order Block (last down candle before impulse)
+df["bull_ob_low"] = df["Low"].shift(1)
+df["bull_ob_high"] = df["High"].shift(1)
+
+# =========================
+# BUYERS VS SELLERS (Volume Pressure)
+# =========================
+
+buy_vol = df["Volume"].where(df["Close"] > df["Open"], 0)
+sell_vol = df["Volume"].where(df["Close"] < df["Open"], 0)
+
+df["buyers_pct"] = 100 * buy_vol / (buy_vol + sell_vol)
+df["buyers_pct"] = df["buyers_pct"].fillna(50)
+price = df["Close"].iloc[i]
+buyers_pct = df["buyers_pct"].iloc[i]
+
 else:
     st.info("Enable at least one factor to display Factor Score.")
 
