@@ -412,11 +412,15 @@ for i in range(10, len(df)):
         })
 
         position = None
-        entry_price = None
+        entry_price = Price
 
 st.session_state["balance"] = balance
 exit_price = price
-pnl_value = exit_price - entry_price
+if entry_price is not None:
+    pnl_value = exit_price - entry_price
+else:
+    pnl_value = 0.0
+
 
 trade_log = pd.DataFrame({
     "Date": ["Entry", "Exit"],
