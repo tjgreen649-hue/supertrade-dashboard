@@ -401,7 +401,7 @@ trade_log = pd.DataFrame({
     ]
 })
 
-st.dataframe(trades, use_container_width=True)
+st.dataframe(pd.DataFrame(trades), use_container_width=True)
 
 # -----------------------------
 # Footer
