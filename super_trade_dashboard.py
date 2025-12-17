@@ -338,10 +338,6 @@ df["buyers_pct"] = df["buyers_pct"].fillna(50)
 price = df["Close"].iloc[i]
 buyers_pct = df["buyers_pct"].iloc[i]
 
-else:
-    st.info("Enable at least one factor to display Factor Score.")
-
-
 # -----------------------------
 # Volume Chart
 # -----------------------------
