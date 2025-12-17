@@ -335,7 +335,7 @@ sell_vol = df["Volume"].where(df["Price"] < df["Price"], 0)
 
 df["buyers_pct"] = 100 * buy_vol / (buy_vol + sell_vol)
 df["buyers_pct"] = df["buyers_pct"].fillna(50)
-price = df["Close"].iloc[i]
+price = df["Price"].iloc[i]
 buyers_pct = df["buyers_pct"].iloc[i]
 
 # -----------------------------
