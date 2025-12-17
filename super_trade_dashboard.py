@@ -330,8 +330,8 @@ df["bull_ob_high"] = df["Price"].shift(1)
 # BUYERS VS SELLERS (Volume Pressure)
 # =========================
 
-buy_vol = df["Volume"].where(df["Price"] > df["Open"], 0)
-sell_vol = df["Volume"].where(df["Price"] < df["Open"], 0)
+buy_vol = df["Volume"].where(df["Price"] > df["Price"], 0)
+sell_vol = df["Volume"].where(df["Price"] < df["Price"], 0)
 
 df["buyers_pct"] = 100 * buy_vol / (buy_vol + sell_vol)
 df["buyers_pct"] = df["buyers_pct"].fillna(50)
