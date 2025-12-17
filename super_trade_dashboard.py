@@ -415,16 +415,19 @@ for i in range(10, len(df)):
         entry_price = None
 
 st.session_state["balance"] = balance
-
+exit_price = price
+pnl_value = exit_price - entry_price
 
 trade_log = pd.DataFrame({
     "Date": ["Entry", "Exit"],
-    "Price": [exit_price_price],
+    "Price": [entry_price, exit_price],
     "PnL": [
         "-",
-        f"${pnl_value:.2f}" if pnl_value is not None else "-"
+        f"${pnl_value:.2f}"
     ]
 })
+
+st.dataframe(trade_log, use_container_width=True)
 
 # -----------------------------
 # Footer
