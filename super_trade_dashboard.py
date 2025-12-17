@@ -419,13 +419,16 @@ st.session_state["balance"] = balance
 
 trade_log = pd.DataFrame({
     "Date": ["Entry", "Exit"],
-    "Price": [entry_price, exit_price],
-    exit_price = price
+    "Price": [
+        entry_price if entry_price is not None else "-",
+        exit_price if 'exit_price' in locals() and exit_price is not None else "-"
+    ],
     "PnL": [
         "-",
         f"${pnl_value:.2f}" if pnl_value is not None else "-"
     ]
 })
+
 
 
 # -----------------------------
