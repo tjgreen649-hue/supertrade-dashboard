@@ -419,11 +419,9 @@ st.session_state["balance"] = balance
 
 trade_log = pd.DataFrame({
     "Date": ["Entry", "Exit"],
-    "Price": [price_entry, price_exit],
-    "PnL": [
-        "-",
-        f"${pnl_value:.2f}" if pnl_value is not None else "-"
-    ]
+    "Price": ["-", "-"],
+    "PnL": ["-", "-"]
+
 })
 
 st.dataframe(pd.DataFrame(trades), use_container_width=True)
