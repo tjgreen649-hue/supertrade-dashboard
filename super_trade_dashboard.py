@@ -339,17 +339,58 @@ st.subheader("Trade Log")
 
 # =========================
 # SAFE TRADE LOG DATA
-# =========================
-min_rows_needed = 6
+# ==========================
+# SIGNAL-BASED TRADE ENGINE
+# ==========================
 
-if len(df) >= min_rows_needed:
-    price_entry = df["Price"].iloc[-6]
-    price_exit = df["Price"].iloc[-3]
-    pnl_value = (price_exit - price_entry) * 10
-else:
-    price_entry = None
-    price_exit = None
-    pnl_value = None
+position = None
+entry_price = None
+balance = st.session_state.get("balance", starting_balance)
+trades = []
+
+for i in range(10, len(df)):
+
+    price = df["Price"].iloc[i]
+
+    # BUY SIGNAL
+    if (
+        position is None
+        and df["bull_msb"].iloc[i]
+        and df["bull_ob_low"].iloc[i] <= price <= df["bull_ob_high"].iloc[i]
+        and buyers_pct > 60
+    ):
+        position = "LONG"
+        entry_price = price
+        trades.append({
+            "Date": df.index[i],
+            "Type": "BUY",
+            "Price": price,
+            "PnL": 0
+        })
+
+    # SELL SIGNAL
+    elif (
+        position == "LONG"
+        and (
+            df["bear_msb"].iloc[i]
+            or sellers_pct > 60
+        )
+    ):
+        pnl = (price - entry_price) * 10
+        balance += pnl
+
+        trades.append({
+            "Date": df.index[i],
+            "Type": "SELL",
+            "Price": price,
+            "PnL": pnl
+        })
+
+        position = None
+        entry_price = None
+
+st.session_state["balance"] = balance
+
 
 trade_log = pd.DataFrame({
     "Date": ["Entry", "Exit"],
