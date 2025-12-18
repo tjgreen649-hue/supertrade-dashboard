@@ -156,7 +156,7 @@ df["SMA_20"] = sma(df["Price"], 20)
 df["EMA_20"] = ema(df["Price"], 20)
 df["EMA_50"] = ema(df["Price"], 50)
 df["RSI_14"] = rsi(df["Price"], 14)
-
++ bias
 bias = timeframe_bias(df["Price"])
 
 # ==========================
