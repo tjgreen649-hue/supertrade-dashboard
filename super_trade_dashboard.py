@@ -71,7 +71,6 @@ pre_market_window = PRE_MARKET_SIGNAL <= now_ny < MARKET_OPEN
 # =========================
 # MULTI-TIMEFRAME BIAS
 # =========================
-bias = timeframe_bias(df["Close"])
 def timeframe_bias(close_series: pd.Series) -> int:
     if len(close_series) < 50:
         return 0
@@ -84,6 +83,8 @@ def timeframe_bias(close_series: pd.Series) -> int:
     elif sma_20.iloc[-1] < sma_50.iloc[-1]:
         return -1  # Bearish bias
     return 0
+    
+bias = timeframe_bias(df["Close"])
 
 def sma_signal(price, sma):
     return 1 if price > sma else -1
