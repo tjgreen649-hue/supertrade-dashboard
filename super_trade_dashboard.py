@@ -83,8 +83,6 @@ def timeframe_bias(close_series: pd.Series) -> int:
     elif sma_20.iloc[-1] < sma_50.iloc[-1]:
         return -1  # Bearish bias
     return 0
-    
-bias = timeframe_bias(df["Close"])
 
 def sma_signal(price, sma):
     return 1 if price > sma else -1
