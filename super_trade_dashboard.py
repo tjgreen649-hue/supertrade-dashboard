@@ -1,9 +1,9 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
-from datetime import datetime, timedelta
+import pytz
+from datetime import datetime, time, timedelta
 
 # -----------------------------
 # Page Config
@@ -50,9 +50,40 @@ show_sma = st.sidebar.checkbox("SMA (20)", value=True)
 show_ema = st.sidebar.checkbox("EMA (20)")
 show_rsi = st.sidebar.checkbox("RSI (14)")
 show_macd = st.sidebar.checkbox("MACD")
+
+# =========================
+# MARKET SESSION LOGIC (NYSE)
+# ========================= 
+
+ny_tz = pytz.timezone("America/New_York")
+now_ny = datetime.now(ny_tz).time()
+
+MARKET_OPEN = time(9, 30)
+MARKET_CLOSE = time(16, 0)
+PRE_MARKET_SIGNAL = time(9, 15)
+
+in_market = MARKET_OPEN <= now_ny <= MARKET_CLOSE
+pre_market_window = PRE_MARKET_SIGNAL <= now_ny < MARKET_OPEN
+
 # ===============================
 # FACTOR SIGNALS
 # ===============================
+# =========================
+# MULTI-TIMEFRAME BIAS
+# =========================
+bias = timeframe_bias(df["Close"])
+def timeframe_bias(close_series: pd.Series) -> int:
+    if len(close_series) < 50:
+        return 0
+
+    sma_20 = close_series.rolling(20).mean()
+    sma_50 = close_series.rolling(50).mean()
+
+    if sma_20.iloc[-1] > sma_50.iloc[-1]:
+        return 1   # Bullish bias
+    elif sma_20.iloc[-1] < sma_50.iloc[-1]:
+        return -1  # Bearish bias
+    return 0
 
 def sma_signal(price, sma):
     return 1 if price > sma else -1
@@ -126,6 +157,9 @@ df["SMA_20"] = sma(df["Price"], 20)
 df["EMA_20"] = ema(df["Price"], 20)
 df["EMA_50"] = ema(df["Price"], 50)
 df["RSI_14"] = rsi(df["Price"], 14)
+
+bias = timeframe_bias(df["Price"])
+
 # ==========================
 # FACTOR SIGNALS
 # ==========================
@@ -156,8 +190,10 @@ weights = {
 df["Factor_Score"] = (
     df["SMA_signal"] * weights["SMA_signal"] +
     df["EMA_signal"] * weights["EMA_signal"] +
-    df["RSI_signal"] * weights["RSI_signal"]
+    df["RSI_signal"] * weights["RSI_signal"] +
+    bias
 )
+
 st.subheader("📊 Strategy Signal")
 
 latest_score = df["Factor_Score"].iloc[-1]
