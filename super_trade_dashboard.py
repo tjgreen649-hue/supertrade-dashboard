@@ -186,12 +186,29 @@ weights = {
     "RSI_signal": 1.0
 }
 
+# =====================
+# FACTOR SCORE
+# =====================
+
 df["Factor_Score"] = (
     df["SMA_signal"] * weights["SMA_signal"] +
     df["EMA_signal"] * weights["EMA_signal"] +
     df["RSI_signal"] * weights["RSI_signal"] +
     bias
 )
+# =====================
+# FINAL TRADE SIGNAL
+# =====================
+
+def trade_signal(score):
+    if score >= 2:
+        return "BUY"
+    elif score <= -2:
+        return "SELL"
+    else:
+        return "HOLD"
+
+df["Trade_Signal"] = df["Factor_Score"].apply(trade_signal)
 
 st.subheader("📊 Strategy Signal")
 
