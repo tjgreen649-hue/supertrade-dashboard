@@ -64,6 +64,16 @@ PRE_MARKET_SIGNAL = time(9, 15)
 
 in_market = MARKET_OPEN <= now_ny <= MARKET_CLOSE
 pre_market_window = PRE_MARKET_SIGNAL <= now_ny < MARKET_OPEN
+import pytz
+from datetime import time
+
+nyse_tz = pytz.timezone("US/Eastern")
+
+df["ET_Time"] = df.index.tz_convert(nyse_tz).time
+
+df["In_Market_Hours"] = df["ET_Time"].between(
+    time(9, 30), time(16, 0)
+)
 
 # ===============================
 # FACTOR SIGNALS
