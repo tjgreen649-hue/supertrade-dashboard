@@ -54,18 +54,6 @@ show_macd = st.sidebar.checkbox("MACD")
 # =========================
 # MARKET SESSION LOGIC (NYSE)
 # ========================= 
-import pytz
-from datetime import time
-
-nyse_tz = pytz.timezone("US/Eastern")
-
-df["ET_Time"] = df.index.tz_convert(nyse_tz).time
-
-df["In_Market_Hours"] = df["ET_Time"].between(
-    time(9, 30), time(16, 0)
-)
-ny_tz = pytz.timezone("America/New_York")
-now_ny = datetime.now(ny_tz).time()
 
 MARKET_OPEN = time(9, 30)
 MARKET_CLOSE = time(16, 0)
@@ -158,6 +146,10 @@ df = pd.DataFrame({
     "Price": price,
     "Volume": volume
 })
+# --- FIX: Set Date as timezone-aware index ---
+df["Date"] = pd.to_datetime(df["Date"], utc=True)
+df = df.set_index("Date")
+
 # ==========================
 # INDICATOR CALCULATIONS
 # ==========================
@@ -168,6 +160,22 @@ df["EMA_50"] = ema(df["Price"], 50)
 df["RSI_14"] = rsi(df["Price"], 14)
 
 bias = timeframe_bias(df["Price"])
+from datetime import time
+import pytz
+
+ny_tz = pytz.timezone("America/New_York")
+
+df["NY_Time"] = df.index.tz_convert(ny_tz)
+df["NY_Date"] = df["NY_Time"].dt.date
+df["NY_Clock"] = df["NY_Time"].dt.time
+
+ENTRY_START = time(9, 0)
+ENTRY_END   = time(15, 30)
+
+df["Valid_Trade_Window"] = df["NY_Clock"].between(
+    ENTRY_START,
+    ENTRY_END
+)
 
 # =====================
 # COLOR SCALE FOR SUPER TRADES
