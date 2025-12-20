@@ -233,7 +233,6 @@ df["Profit_Confidence"] = (
 # =====================
 
 df["Super_Trade"] = df["Profit_Confidence"] >= 0.5
-
  df["Factor_Score"] = (
     df["SMA_signal"] * weights["SMA_signal"] +
     df["EMA_signal"] * weights["EMA_signal"] +
