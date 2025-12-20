@@ -14,23 +14,6 @@ st.set_page_config(
     page_icon="📈"
 )
 
-df.iloc[-1]
-
-st.markdown("## 🔥 CURRENT TRADE SIGNAL")
-
-signal_color = {
-    "BUY": "🟢",
-    "SELL": "🔴",
-    "HOLD": "⚪"
-}["Trade_Action"]
-st.markdown(
-    f"""
-    ### {signal_color} **{latest['Trade_Action']}**
-    **Confidence:** {latest['Profit_Confidence']:.0%}  
-    **Profit Window:** {latest['Profit_Window']}
-    """
-)
-
 # -----------------------------
 # Header
 # -----------------------------
