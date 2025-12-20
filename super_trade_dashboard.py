@@ -159,6 +159,20 @@ df["RSI_14"] = rsi(df["Price"], 14)
 
 bias = timeframe_bias(df["Price"])
 
+# =====================
+# COLOR SCALE FOR SUPER TRADES
+# =====================
+
+def supertrade_color(confidence):
+    if confidence < 0.5:
+        return "rgba(255,255,255,0.2)"  # weak / faded
+    elif confidence < 0.75:
+        return "rgba(255,165,0,0.6)"    # orange
+    elif confidence < 0.9:
+        return "rgba(255,140,0,0.85)"   # deep orange
+    else:
+        return "rgba(255,200,0,1.0)"    # golden orange
+
 # ==========================
 # FACTOR SIGNALS
 # ==========================
@@ -185,13 +199,37 @@ weights = {
     "EMA_signal": 1.0,
     "RSI_signal": 1.0
 }
+df["Factor_Score"] = (
+    df["SMA_signal"] * weights["SMA_signal"] +
+    df["EMA_signal"] * weights["EMA_signal"] +
+    df["RSI_signal"] * weights["RSI_signal"] +
+    bias
+)
+df["Confidence"] = df["Factor_Score"].abs() / (
+    sum(weights.values()) + abs(bias)
+)
+
+df["Confidence"] = df["Confidence"].clip(0, 1)
 
 # =====================
 # FACTOR SCORE
 # =====================
 
 df["Factor_Score"] = (
-    df["SMA_signal"] * weights["SMA_signal"] +
+# =====================
+# PROFIT CONFIDENCE SCORE (0.0 → 1.0)
+# =====================
+
+df["Profit_Confidence"] = (
+    df["Factor_Score"].abs() / 4
+).clip(0, 1)
+# =====================
+# SUPER TRADE FLAG
+# =====================
+
+df["Super_Trade"] = df["Profit_Confidence"] >= 0.5
+
+ df["SMA_signal"] * weights["SMA_signal"] +
     df["EMA_signal"] * weights["EMA_signal"] +
     df["RSI_signal"] * weights["RSI_signal"] +
     bias
