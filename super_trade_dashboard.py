@@ -73,9 +73,9 @@ df["ET_Time"] = (
 df.index.tz_convert(nyse_tz).time
 )
 df["In_Market_Hours"] = (
-df["ET_Time"].between[ = (
+df["ET_Time"].between ) = (
     time(9, 30), time(16, 0)
-])
+)
 
 # ===============================
 # FACTOR SIGNALS
