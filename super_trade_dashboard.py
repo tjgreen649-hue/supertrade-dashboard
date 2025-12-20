@@ -70,7 +70,7 @@ from datetime import time
 nyse_tz = pytz.timezone("US/Eastern")
 
 df["ET_Time"] = (
-df.index.tz_convert(nyse_tz).time
+df.index.tz_convert(nyse_tz).time =
 )
 df["In_Market_Hours"] = (
 df["ET_Time"].between ) = (
