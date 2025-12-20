@@ -231,11 +231,11 @@ df["Factor_Score"].abs() / 4
 # SUPER TRADE FLAG
 # =====================
 
-df["Super_Trade"] = df["Profit_Confidence"] >= 0.5
-df["Factor_Score"] * df["Profit_Confidence"]
+df["Super_Trade"] = df["Profit_Confidence"] >= 0.5 = (
+df["Profit_Confidence"]
 df["Factor_Score"].abs() / 4
 .clip(0, 1)
-
+)
 df["SMA_signal"] * weights["SMA_signal"] +
 df["EMA_signal"] * weights["EMA_signal"] +
 df["RSI_signal"] * weights["RSI_signal"] +
