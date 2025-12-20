@@ -13,6 +13,23 @@ st.set_page_config(
     layout="wide",
     page_icon="📈"
 )
+latest = df.iloc[-1]
+
+st.markdown("## 🔥 CURRENT TRADE SIGNAL")
+
+signal_color = {
+    "BUY": "🟢",
+    "SELL": "🔴",
+    "HOLD": "⚪"
+}[latest["Trade_Action"]]
+
+st.markdown(
+    f"""
+    ### {signal_color} **{latest['Trade_Action']}**
+    **Confidence:** {latest['Profit_Confidence']:.0%}  
+    **Profit Window:** {latest['Profit_Window']}
+    """
+)
 
 # -----------------------------
 # Header
@@ -249,6 +266,20 @@ df.loc[
     (df["Factor_Score"] <= -1.5) & (df["Super_Trade"]),
     "Trade_Action"
 ] = "SELL"
+df["Profit_Window"] = "None"
+
+df.loc[
+    (df["Trade_Action"] != "HOLD") &
+    (df["Profit_Confidence"] >= 0.75),
+    "Profit_Window"
+] = "High (1–3 candles)"
+
+df.loc[
+    (df["Trade_Action"] != "HOLD") &
+    (df["Profit_Confidence"] < 0.75),
+    "Profit_Window"
+] = "Moderate (3–6 candles)"
+
 # =====================
 # FINAL TRADE SIGNAL
 # =====================
@@ -353,6 +384,11 @@ def supertrade_color(conf):
     g = int(165 + (90 * conf))  # orange → gold
     b = int(0)
     return f"rgb({r},{g},{b})"
+df["Candle_Color"] = df.apply(
+    lambda r: supertrade_color(r["Profit_Confidence"])
+    if r["Super_Trade"] else "gray",
+    axis=1
+)
 
 price_fig = px.line(
     df,
