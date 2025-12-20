@@ -13,7 +13,7 @@ st.set_page_config(
     layout="wide",
     page_icon="📈"
 )
-latest = (
+   latest = (
 df.iloc[-1]
 
 st.markdown("## 🔥 CURRENT TRADE SIGNAL")
