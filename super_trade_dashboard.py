@@ -234,6 +234,21 @@ df["Factor_Score"].abs() / 4
 df["Super_Trade"] = (
 df["Profit_Confidence"] >= 0.5 
 ).clip(0, 1)
+# ======================
+# TRADE ACTION
+# ======================
+
+df["Trade_Action"] = "HOLD"
+
+df.loc[
+    (df["Factor_Score"] >= 1.5) & (df["Super_Trade"]),
+    "Trade_Action"
+] = "BUY"
+
+df.loc[
+    (df["Factor_Score"] <= -1.5) & (df["Super_Trade"]),
+    "Trade_Action"
+] = "SELL"
 # =====================
 # FINAL TRADE SIGNAL
 # =====================
