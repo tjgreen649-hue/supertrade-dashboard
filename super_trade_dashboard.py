@@ -346,6 +346,13 @@ col4.metric("Balance", f"${starting_balance:,.0f}")
 # Price Chart
 # -----------------------------
 st.subheader("Price Chart")
+def supertrade_color(conf):
+    if conf < 0.5:
+        return "gray"
+    r = int(255)
+    g = int(165 + (90 * conf))  # orange → gold
+    b = int(0)
+    return f"rgb({r},{g},{b})"
 
 price_fig = px.line(
     df,
@@ -392,7 +399,7 @@ price_fig.add_scatter(
 st.plotly_chart(price_fig, use_container_width=True)
 
 # ==============================
-# STEP 4: FACTOR SCORE PLOT
+# FACTOR SCORE PLOT
 # ==============================
 
 st.subheader("Factor Score")
