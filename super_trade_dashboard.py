@@ -259,7 +259,7 @@ elif latest_score < 0:
 else:
     st.info("NEUTRAL ⚖️")
 # =========================
-# STEP 5: TRADE SIGNALS
+# Get In or Out  SIGNALS
 # =========================
 
 df["signal"] = 0
