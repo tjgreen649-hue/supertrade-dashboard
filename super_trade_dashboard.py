@@ -39,6 +39,20 @@ days = st.sidebar.slider(
     max_value=180,
     value=60
 )
+st.sidebar.subheader("Timeframes")
+
+TIMEFRAMES = {
+    "5m": "5m",
+    "15m": "15m",
+    "30m": "30m",
+    "1h": "60m",
+    "1d": "1d"
+}
+
+enabled_timeframes = {
+    tf: st.sidebar.checkbox(tf, value=(tf == "5m"))
+    for tf in TIMEFRAMES
+}
 
 starting_balance = st.sidebar.number_input(
     "Starting Balance ($)",
