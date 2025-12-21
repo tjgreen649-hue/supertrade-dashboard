@@ -394,10 +394,7 @@ df["Candle_Color"] = df.apply(
     axis=1
 )
 
-price_fig.update_layout(
-    xaxis_title="Date / Time (NYSE)",
-    yaxis_title="Price"
-)
+# === PRICE CHART ===
 price_fig = px.line(
     df,
     x=df.index,
@@ -413,10 +410,6 @@ price_fig.update_layout(
     margin=dict(l=20, r=20, t=40, b=20)
 )
 
-price_fig.update_layout(
-    height=400,
-    margin=dict(l=20, r=20, t=40, b=20)
-)
 # === TRADE MARKERS (ENTRIES / EXITS) ===
 
 entries = df[df["entry"]]
