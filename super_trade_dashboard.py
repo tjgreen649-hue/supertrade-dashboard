@@ -507,6 +507,24 @@ if not isinstance(df.index, pd.DatetimeIndex):
 # Volume Chart
 # -----------------------------
 st.subheader("Volume")
+
+
+vol_fig.update_layout(
+    xaxis_title="Date / Time (NYSE)",
+    yaxis_title="Volume",
+    height=250,
+    margin=dict(l=20, r=20, t=40, b=20)
+)
+# ===== VOLUME CHART (SAFE) =====
+df = df.copy()
+
+if "Volume" not in df.columns:
+    st.error(f"Volume column missing. Columns found: {list(df.columns)}")
+    st.stop()
+
+if not isinstance(df.index, pd.DatetimeIndex):
+    df.index = pd.to_datetime(df.index)
+
 vol_fig = px.bar(
     x=df.index,
     y=df["Volume"],
@@ -519,8 +537,6 @@ vol_fig.update_layout(
     height=250,
     margin=dict(l=20, r=20, t=40, b=20)
 )
-
-st.plotly_chart(vol_fig, use_container_width=True)
 
 st.plotly_chart(vol_fig, use_container_width=True)
 
