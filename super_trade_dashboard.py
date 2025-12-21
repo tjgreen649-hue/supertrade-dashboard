@@ -411,45 +411,32 @@ price_fig.update_layout(
 )
 
 # === TRADE MARKERS (ENTRIES / EXITS) ===
+# === TRADE MARKERS (ENTRIES / EXITS) ===
+entries = df[df["entry"] == 1]
+exits   = df[df["exit"] == 1]
 
-entries = df[df["entry"]]
-exits  = df[df["exit"]]
+if not entries.empty:
+    price_fig.add_scatter(
+        x=entries.index,
+        y=entries["Price"],
+        mode="markers",
+        name="Entry",
+        marker=dict(symbol="triangle-up", size=12, color="green")
+    )
 
-price_fig.add_scatter(
-    x=entries[price_fig.update_layout(
+if not exits.empty:
+    price_fig.add_scatter(
+        x=exits.index,
+        y=exits["Price"],
+        mode="markers",
+        name="Exit",
+        marker=dict(symbol="triangle-down", size=12, color="red")
+    )
+price_fig.update_layout(
     xaxis_title="Date / Time (NYSE)",
-    yaxis_title="Price"
-)
-    ],
-    y=entries["Price"],
-    mode="markers",
-    marker=dict(symbol="triangle-up", size=14),
-    name="Buy Entry"
-)
-
-price_fig.add_scatter(
-    x=exits[price_fig.update_layout(
-    xaxis_title="Date / Time (NYSE)",
-    yaxis_title="Price"
-)
-    ],
-    y=exits["Price"],
-    mode="markers",
-    marker=dict(symbol="triangle-down", size=14),
-    name="Sell Exit"
-)
-
-
-price_fig.add_scatter(
-    x=exits[price_fig.update_layout(
-    xaxis_title="Date / Time (NYSE)",
-    yaxis_title="Price"
-)
-],
-    y=exits["Price"],
-    mode="markers",
-    marker=dict(symbol="triangle-down", size=14),
-    name="Sell Exit"
+    yaxis_title="Price",
+    height=400,
+    margin=dict(l=20, r=20, t=40, b=20)
 )
 
 st.plotly_chart(price_fig, use_container_width=True)
