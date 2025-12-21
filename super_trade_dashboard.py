@@ -338,7 +338,7 @@ for i, row in df.iterrows():
         balance = 0
 
         trade_log.append({
-            "Date": row["Date"],
+            "Date": row.name.tz_convert("America/New_York"),
             "Type": "BUY",
             "Price": price
         })
