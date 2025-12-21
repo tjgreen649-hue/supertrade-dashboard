@@ -411,8 +411,7 @@ price_fig.update_layout(
     yaxis_title="Price"
 )
 
-
-    y="Price",
+  (  y="Price",
     title=f"{symbol} Price History",
     markers=True
 )
