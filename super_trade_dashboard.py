@@ -336,6 +336,14 @@ df["signal_shift"] = df["signal"].shift(1)
 
 df["entry"] = (df["signal"] == 1) & (df["signal_shift"] != 1)
 df["exit"]  = (df["signal"] == -1) & (df["signal_shift"] != -1)
+def classify_trade(row):
+    if row["Factor_Score"] >= 80 and row["Volume_Confirm"]:
+        return "SUPER"
+    elif row["Trade_Action"] in ["BUY", "SELL"]:
+        return "NORMAL"
+    return "NONE"
+
+df["Trade_Type"] = df.apply(classify_trade, axis=1)
 
 # === PAPER TRADING ENGINE ===
 
