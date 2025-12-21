@@ -29,6 +29,9 @@ symbol = st.sidebar.selectbox(
     "Select Symbol",
     ["AAPL", "MSFT", "TSLA", "NVDA", "SPY", "QQQ" ]
 )
+# ===== Display Toggles =====
+st.sidebar.subheader("Display")
+show_volume = st.sidebar.checkbox("Show Volume", value=True)
 
 days = st.sidebar.slider(
     "Days of history",
@@ -516,7 +519,12 @@ if not isinstance(df.index, pd.DatetimeIndex):
 st.subheader("Volume")
 
 # ===== VOLUME CHART (SAFE) =====
-if show_volume:
+# ==========================
+# Volume Chart (SAFE)
+# ==========================
+st.subheader("Volume")
+
+if show_volume and "Volume" in df.columns and not df.empty:
     vol_fig = px.bar(
         x=df.index,
         y=df["Volume"],
@@ -531,10 +539,8 @@ if show_volume:
     )
 
     st.plotly_chart(vol_fig, use_container_width=True)
-
-
-
-st.plotly_chart(vol_fig, use_container_width=True)
+else:
+    st.info("Volume hidden or data unavailable.")
 
 # -----------------------------
 # Trade Log (Mock)
