@@ -267,6 +267,13 @@ df["Factor_Score"].abs() / 4
 # =====================
 # SUPER TRADE FLAG
 # =====================
+# Trade Type Classification
+df["Trade_Type"] = np.where(
+    df["Profit_Confidence"] >= 0.5,
+    "SUPER",
+    "NORMAL"
+)
+
 df["Volume_Confirm"] = (
     df["Volume"] > df["Volume"].rolling(20).mean()
 )
@@ -275,7 +282,6 @@ df["Glow"] = np.where(
      "gold",
      "transparent"
 )
-
 
 df["Super_Trade"] = (
 df["Profit_Confidence"] >= 0.5 
