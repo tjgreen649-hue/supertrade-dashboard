@@ -253,9 +253,12 @@ df["Confidence"] = df["Confidence"].clip(0, 1)
 # =====================
 # FACTOR SCORE
 # =====================
-
-df["Factor_Score"] = (
+ (df["Factor_Score"] = (
+    df["SMA_signal"] * weights["SMA_signal"] +
+    df["EMA_signal"] * weights["EMA_signal"] +
+    df["RSI_signal"] * weights["RSI_signal"]
 )
+
 # =========================
 # TRADE TYPE CLASSIFICATION
 # =========================
@@ -276,6 +279,13 @@ df["SMA_signal"] * weights["SMA_signal"] ( +
 df["Profit_Confidence"] = (
 df["Factor_Score"].abs() / 4
 ).clip(0, 1)
+
+df["Trade_Type"] = np.where(
+    df["Profit_Confidence"] >= 0.5,
+    "SUPER",
+    "NORMAL"
+)
+
 # =====================
 # SUPER TRADE FLAG
 # =====================
