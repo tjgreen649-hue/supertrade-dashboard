@@ -529,7 +529,7 @@ vol_fig = px.bar(
     x=df.index,
     y=df["Volume"],
     title=f"{symbol} Volume"
-)
+) 
 
 vol_fig.update_layout(
     xaxis_title="Date / Time (NYSE)",
