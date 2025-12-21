@@ -394,9 +394,17 @@ df["Candle_Color"] = df.apply(
     axis=1
 )
 
-price_fig = px.line(
+price_fig.update_layout(
+    xaxis_title="Date / Time (NYSE)",
+    yaxis_title="Price"
+)
+(
     df,
-    x="Date",
+    price_fig.update_layout(
+    xaxis_title="Date / Time (NYSE)",
+    yaxis_title="Price"
+)
+
     y="Price",
     title=f"{symbol} Price History",
     markers=True
@@ -412,7 +420,11 @@ entries = df[df["entry"]]
 exits  = df[df["exit"]]
 
 price_fig.add_scatter(
-    x=entries["Date"],
+    x=entries[price_fig.update_layout(
+    xaxis_title="Date / Time (NYSE)",
+    yaxis_title="Price"
+)
+    ],
     y=entries["Price"],
     mode="markers",
     marker=dict(symbol="triangle-up", size=14),
@@ -420,7 +432,11 @@ price_fig.add_scatter(
 )
 
 price_fig.add_scatter(
-    x=exits["Date"],
+    x=exits[price_fig.update_layout(
+    xaxis_title="Date / Time (NYSE)",
+    yaxis_title="Price"
+)
+    ],
     y=exits["Price"],
     mode="markers",
     marker=dict(symbol="triangle-down", size=14),
@@ -429,7 +445,11 @@ price_fig.add_scatter(
 
 
 price_fig.add_scatter(
-    x=exits["Date"],
+    x=exits[price_fig.update_layout(
+    xaxis_title="Date / Time (NYSE)",
+    yaxis_title="Price"
+)
+],
     y=exits["Price"],
     mode="markers",
     marker=dict(symbol="triangle-down", size=14),
