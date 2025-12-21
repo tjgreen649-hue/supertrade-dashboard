@@ -54,14 +54,16 @@ show_macd = st.sidebar.checkbox("MACD")
 # =========================
 # MARKET SESSION LOGIC (NYSE)
 # ========================= 
+import pytz
+from datetime import datetime, time
+
+ny_tz = pytz.timezone("America/New_York")
+now_ny = datetime.now(ny_tz).time()
 
 MARKET_OPEN = time(9, 30)
 MARKET_CLOSE = time(16, 0)
-PRE_MARKET_SIGNAL = time(9, 15)
+
 in_market = MARKET_OPEN <= now_ny <= MARKET_CLOSE
-
-pre_market_window = PRE_MARKET_SIGNAL <= now_ny < MARKET_OPEN
-
 
 # ===============================
 # FACTOR SIGNALS
