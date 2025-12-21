@@ -255,6 +255,7 @@ df["Confidence"] = df["Confidence"].clip(0, 1)
 # =====================
 
 df["Factor_Score"] = (
+)
 # =========================
 # TRADE TYPE CLASSIFICATION
 # =========================
