@@ -398,12 +398,19 @@ price_fig.update_layout(
     xaxis_title="Date / Time (NYSE)",
     yaxis_title="Price"
 )
-(
+price_fig = px.line(
     df,
-    price_fig.update_layout(
+    x=df.index,
+    y="Price",
+    title=f"{symbol} Price History",
+    markers=True
+)
+
+price_fig.update_layout(
     xaxis_title="Date / Time (NYSE)",
     yaxis_title="Price"
 )
+
 
     y="Price",
     title=f"{symbol} Price History",
