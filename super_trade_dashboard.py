@@ -506,17 +506,6 @@ if "Volume" not in df.columns:
 if not isinstance(df.index, pd.DatetimeIndex):
     df.index = pd.to_datetime(df.index)
 
-# -----------------------------
-# Volume Chart
-# -----------------------------
-
-    vol_fig.update_layout(
-        xaxis_title="Date / Time (NYSE)",
-        yaxis_title="Volume",
-        height=250,
-        margin=dict(l=20, r=20, t=40, b=20)
-    )
-st.subheader("Volume")
 # ==========================
 # Volume Chart (SAFE)
 # ==========================
