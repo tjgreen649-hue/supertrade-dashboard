@@ -523,7 +523,7 @@ score_fig.update_layout(
     margin=dict(l=20, r=20, t=40, b=20)
 )
 
-    st.plotly_chart(score_fig, use_container_width=True)
+st.plotly_chart(score_fig, use_container_width=True)
 
 # =========================
 # MARKET STRUCTURE + ORDER BLOCKS
