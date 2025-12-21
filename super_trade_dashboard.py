@@ -492,15 +492,24 @@ df["buyers_pct"] = 100 * buy_vol / (buy_vol + sell_vol)
 df["buyers_pct"] = df["buyers_pct"].fillna(50)
 price = df.loc[i, "Price"]
 buyers_pct = df.loc[i, "buyers_pct"]
+# --- SAFETY CHECK ---
+df = df.copy()
+
+if "Volume" not in df.columns:
+    st.error(f"Volume column missing. Columns found: {list(df.columns)}")
+    st.stop()
+
+# Ensure datetime index
+if not isinstance(df.index, pd.DatetimeIndex):
+    df.index = pd.to_datetime(df.index)
 
 # -----------------------------
 # Volume Chart
 # -----------------------------
 st.subheader("Volume")
 vol_fig = px.bar(
-    df,
     x=df.index,
-    y="Volume",
+    y=df["Volume"],
     title=f"{symbol} Volume"
 )
 
@@ -510,6 +519,8 @@ vol_fig.update_layout(
     height=250,
     margin=dict(l=20, r=20, t=40, b=20)
 )
+
+st.plotly_chart(vol_fig, use_container_width=True)
 
 st.plotly_chart(vol_fig, use_container_width=True)
 
