@@ -350,7 +350,8 @@ for i, row in df.iterrows():
         position = 0
 
         trade_log.append({
-            "Date": row["Date"],
+            "Date": row.name.tz_convert("America/New_York"),
+
             "Type": "SELL",
             "Price": price,
             "PnL": pnl
