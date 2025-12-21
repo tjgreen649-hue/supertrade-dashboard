@@ -497,16 +497,17 @@ buyers_pct = df.loc[i, "buyers_pct"]
 # Volume Chart
 # -----------------------------
 st.subheader("Volume")
-
 vol_fig = px.bar(
     df,
-    x="Date",
+    x=df.index,
     y="Volume",
     title=f"{symbol} Volume"
 )
 
 vol_fig.update_layout(
-    height=300,
+    xaxis_title="Date / Time (NYSE)",
+    yaxis_title="Volume",
+    height=250,
     margin=dict(l=20, r=20, t=40, b=20)
 )
 
