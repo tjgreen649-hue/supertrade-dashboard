@@ -401,6 +401,16 @@ else:
 
 col3.metric("Day Change", f"{day_change:.2f}")
 col4.metric("Balance", f"${starting_balance:,.0f}")
+df["Candle_Color"] = np.where(df["Close"] >= df["Open"], "green", "red")
+
+df["Volume_Color"] = np.select(
+    [
+        df["Trade_Action"] == "BUY",
+        df["Trade_Action"] == "SELL"
+    ],
+    ["lime", "red"],
+    default="gray"
+)
 
 # -----------------------------
 # Price Chart
