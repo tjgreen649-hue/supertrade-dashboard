@@ -255,7 +255,15 @@ df["Confidence"] = df["Confidence"].clip(0, 1)
 # =====================
 
 df["Factor_Score"] = (
-    df["SMA_signal"] * weights["SMA_signal"] +
+# =========================
+# TRADE TYPE CLASSIFICATION
+# =========================
+df["Trade_Type"] = np.where(
+    df["Profit_Confidence"] >= 0.5,
+    "SUPER",
+    "NORMAL"
+)
+df["SMA_signal"] * weights["SMA_signal"] +
     df["EMA_signal"] * weights["EMA_signal"] +
     df["RSI_signal"] * weights["RSI_signal"])
 
@@ -508,12 +516,10 @@ if "factor_score" in df.columns and df["factor_score"].notna().any():
         title="Composite Factor Score",
         markers=True
     )
-if show_volume:
-    # existing volume chart code
-    score_fig.update_layout(
-        height=250,
-        margin=dict(l=20, r=20, t=40, b=20)
-    )
+score_fig.update_layout(
+    height=250,
+    margin=dict(l=20, r=20, t=40, b=20)
+)
 
     st.plotly_chart(score_fig, use_container_width=True)
 
