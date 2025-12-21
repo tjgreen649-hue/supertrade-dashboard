@@ -270,7 +270,7 @@ df["Factor_Score"].abs() / 4
 df["Volume_Confirm"] = (
     df["Volume"] > df["Volume"].rolling(20).mean()
 )
- df["Glow"] = np.where(  
+df["Glow"] = np.where(  
     (df["Trade_Type"] == "SUPER") & (df["Volume_Confirm"]),
      "gold",
      "transparent"
