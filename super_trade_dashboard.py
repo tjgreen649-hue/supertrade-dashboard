@@ -517,8 +517,6 @@ if not isinstance(df.index, pd.DatetimeIndex):
         margin=dict(l=20, r=20, t=40, b=20)
     )
 st.subheader("Volume")
-
-# ===== VOLUME CHART (SAFE) =====
 # ==========================
 # Volume Chart (SAFE)
 # ==========================
