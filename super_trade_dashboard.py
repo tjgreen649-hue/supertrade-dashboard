@@ -92,6 +92,8 @@ def timeframe_bias(close_series: pd.Series) -> int:
     if len(close_series) < 50:
         return 0
 
+    show_volume = st.checkbox("Show Volume", value=True)
+
     sma_20 = close_series.rolling(20).mean()
     sma_50 = close_series.rolling(50).mean()
 
@@ -506,7 +508,8 @@ if "factor_score" in df.columns and df["factor_score"].notna().any():
         title="Composite Factor Score",
         markers=True
     )
-
+if show_volume:
+    # existing volume chart code
     score_fig.update_layout(
         height=250,
         margin=dict(l=20, r=20, t=40, b=20)
@@ -560,11 +563,14 @@ st.subheader("Volume")
 
 if show_volume and "Volume" in df.columns and not df.empty:
     vol_fig = px.bar(
-        x=df.index,
-        y=df["Volume"],
-        title=f"{symbol} Volume"
-    )
-
+    df,
+    x=df.index,
+    y="Volume",
+    color="Vol_Color",
+    color_discrete_map={"green": "green", "red": "red"},
+    title=f"{symbol} Volume"
+)
+    
     vol_fig.update_layout(
         xaxis_title="Date / Time (NYSE)",
         yaxis_title="Volume",
