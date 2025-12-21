@@ -401,7 +401,7 @@ else:
 
 col3.metric("Day Change", f"{day_change:.2f}")
 col4.metric("Balance", f"${starting_balance:,.0f}")
-df["Candle_Color"] = np.where(df["Price"] >= df["Open"], "green", "red")
+df["Candle_Color"] = np.where(df["Price"] >= df["Price"], "green", "red")
 
 df["Volume_Color"] = np.select(
     [
