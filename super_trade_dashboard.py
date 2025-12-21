@@ -408,12 +408,9 @@ price_fig = px.line(
 
 price_fig.update_layout(
     xaxis_title="Date / Time (NYSE)",
-    yaxis_title="Price"
-)
-
-  (  y="Price",
-    title=f"{symbol} Price History",
-    markers=True
+    yaxis_title="Price",
+    height=400,
+    margin=dict(l=20, r=20, t=40, b=20)
 )
 
 price_fig.update_layout(
