@@ -272,7 +272,7 @@ df["Volume_Confirm"] = (
 )
 
 df["Glow"] = np.where(
-    df["Trade_Type"] == "SUPER",
+df["Trade_Type"] == "SUPER",
     "gold",
     "transparent"
 )
