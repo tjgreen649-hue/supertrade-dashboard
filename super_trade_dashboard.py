@@ -13,6 +13,17 @@ st.set_page_config(
     layout="wide",
     page_icon="📈"
 )
+@st.cache_data(ttl=300)
+def load_data(symbol: str, period: str, interval: str):
+    df = yf.download(
+        symbol,
+        period=period,
+        interval=interval,
+        progress=False
+    )
+
+    df.dropna(inplace=True)
+    return df
 
 # -----------------------------
 # Header
