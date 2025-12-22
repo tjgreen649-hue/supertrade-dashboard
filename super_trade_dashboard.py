@@ -117,11 +117,12 @@ timeframes = {
     "1h": st.sidebar.checkbox("1h"),
     "1d": st.sidebar.checkbox("Day"),
 }
+(
 show_volume = st.checkbox("Show Volume", value=True)
 sma_20 = close_series.rolling(20).mean()
 sma_50 = close_series.rolling(50).mean()
-
-    if sma_20.iloc[-1] > sma_50.iloc[-1]:
+)
+ if sma_20.iloc[-1] > sma_50.iloc[-1]:
         return 1   # Bullish bias
     elif sma_20.iloc[-1] < sma_50.iloc[-1]:
         return -1  # Bearish bias
