@@ -32,6 +32,7 @@ symbol = st.sidebar.selectbox(
 # ===== Display Toggles =====
 st.sidebar.subheader("Display")
 show_volume = st.sidebar.checkbox("Show Volume", value=True)
+show_volume = st.sidebar.checkbox("Show Volume", True)
 
 days = st.sidebar.slider(
     "Days of history",
@@ -39,6 +40,8 @@ days = st.sidebar.slider(
     max_value=180,
     value=60
 )
+st.set_page_config(layout="wide", page_title="Super Trade Dashboard")
+
 st.sidebar.subheader("Timeframes")
 
 TIMEFRAMES = {
@@ -61,6 +64,10 @@ starting_balance = st.sidebar.number_input(
     value=25_000,
     step=1000
 )
+for tf, enabled in timeframes.items():
+    if not enabled:
+        continue
+
 st.sidebar.subheader("📐 Factors")
 
 show_sma = st.sidebar.checkbox("SMA (20)", value=True)
@@ -91,6 +98,14 @@ in_market = MARKET_OPEN <= now_ny <= MARKET_CLOSE
 def timeframe_bias(close_series: pd.Series) -> int:
     if len(close_series) < 50:
         return 0
+# --- TIMEFRAME SELECTION ---
+timeframes = {
+    "5m": st.sidebar.checkbox("5m", True),
+    "15m": st.sidebar.checkbox("15m"),
+    "30m": st.sidebar.checkbox("30m"),
+    "1h": st.sidebar.checkbox("1h"),
+    "1d": st.sidebar.checkbox("Day"),
+}
 
     show_volume = st.checkbox("Show Volume", value=True)
 
@@ -253,7 +268,7 @@ df["Confidence"] = df["Confidence"].clip(0, 1)
 # =====================
 # FACTOR SCORE
 # =====================
-( df["Factor_Score"] = (
+ df["Factor_Score"] = (
     df["SMA_signal"] * weights["SMA_signal"] +
     df["EMA_signal"] * weights["EMA_signal"] +
     df["RSI_signal"] * weights["RSI_signal"]
@@ -284,8 +299,13 @@ df["Trade_Type"] = np.where(
     df["Profit_Confidence"] >= 0.5,
     "SUPER",
     "NORMAL"
-)
+) 
+df["Volume_Confirm"] = df["Volume"] > df["Volume"].rolling(20).mean()
 
+df["Super_Trade"] = (
+    (df["Factor_Score"] > 0.6) &
+    df["Volume_Confirm"]
+)
 # =====================
 # SUPER TRADE FLAG
 # =====================
@@ -311,6 +331,8 @@ df["Profit_Confidence"] >= 0.5
 # ======================
 # TRADE ACTION
 # ======================
+if df["Super_Trade"].iloc[-1]:
+    st.toast("⚡ SUPER TRADE SIGNAL", icon="⚡")
 
 df["Trade_Action"] = "HOLD"
 
@@ -418,11 +440,32 @@ for i, row in df.iterrows():
             "Price": price,
             "PnL": pnl
         })
+if show_volume:
+    fig.add_trace(volume_trace)
 
     equity_curve.append(balance if position == 0 else position * price)
 
 df["Equity"] = equity_curve
 trades = pd.DataFrame(trade_log)
+volume_colors = np.where(
+    df["Close"] >= df["Open"],
+    "rgba(0,200,0,0.6)",
+    "rgba(200,0,0,0.6)"
+)
+
+vol_trace = go.Bar(
+    x=df.index,
+    y=df["Volume"],
+    marker_color=volume_colors,
+    name="Volume"
+)
+fig.add_trace(go.Scatter(
+    x=df.index[df["Super_Trade"]],
+    y=df["Close"][df["Super_Trade"]],
+    mode="markers",
+    marker=dict(size=12, color="gold", symbol="star"),
+    name="Super Trade Entry"
+))
 
 # -----------------------------
 # Metrics Row
@@ -465,6 +508,14 @@ df["Candle_Color"] = df.apply(
     if r["Super_Trade"] else "gray",
     axis=1
 )
+fig.add_trace(go.Scatter(
+    x=df.index[df["Super_Trade"]],
+    y=df["Close"][df["Super_Trade"]],
+    mode="markers",
+    marker=dict(size=12, color="gold", symbol="star"),
+    name="Super Trade Entry"
+))
+st.metric("Signal Confidence", f"{df['Confidence'].iloc[-1]*100:.1f}%")
 
 # === PRICE CHART ===
 price_fig = px.line(
