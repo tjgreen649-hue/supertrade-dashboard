@@ -117,7 +117,7 @@ timeframes = {
     "1h": st.sidebar.checkbox("1h"),
     "1d": st.sidebar.checkbox("Day"),
 }
-(
+
  show_volume = st.sidebar.checkbox("Show Volume", value=True)
  def sma_bias(close_series):
     sma_20 = close_series.rolling(20).mean()
