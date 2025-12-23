@@ -66,6 +66,7 @@ enabled_timeframes = {
     tf: st.sidebar.checkbox(tf, value=(tf == "5m"))
     for tf in TIMEFRAMES
 }
+timeframes=TIMEFRAMES
 
 starting_balance = st.sidebar.number_input(
     "Starting Balance ($)",
