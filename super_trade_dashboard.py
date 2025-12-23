@@ -118,15 +118,17 @@ timeframes = {
     "1d": st.sidebar.checkbox("Day"),
 }
 (
- show_volume = st.checkbox("Show Volume", value=True)
- sma_20 = close_series.rolling(20).mean()
- sma_50 = close_series.rolling(50).mean()
-) 
- if sma_20.iloc[-1] > sma_50.iloc[-1]:
-        return 1   # Bullish bias
+ show_volume = st.sidebar.checkbox("Show Volume", value=True)
+ def sma_bias(close_series):
+    sma_20 = close_series.rolling(20).mean()
+    sma_50 = close_series.rolling(50).mean()
+
+    if sma_20.iloc[-1] > sma_50.iloc[-1]:
+        return 1   # Bullish
     elif sma_20.iloc[-1] < sma_50.iloc[-1]:
-        return -1  # Bearish bias
+        return -1  # Bearish
     return 0
+
 
 def sma_signal(price, sma):
     return 1 if price > sma else -1
