@@ -43,7 +43,6 @@ symbol = st.sidebar.selectbox(
 # ===== Display Toggles =====
 st.sidebar.subheader("Display")
 show_volume = st.sidebar.checkbox("Show Volume", value=True)
-show_volume = st.sidebar.checkbox("Show Volume", True)
 
 days = st.sidebar.slider(
     "Days of history",
