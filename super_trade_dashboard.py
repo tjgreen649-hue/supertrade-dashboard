@@ -74,7 +74,7 @@ starting_balance = st.sidebar.number_input(
     value=25_000,
     step=1000
 )
-for tf, enabled in TimeFrames.items():
+for tf, enabled in TIMEFRAMES.items():
     if not enabled:
                    continue
 
