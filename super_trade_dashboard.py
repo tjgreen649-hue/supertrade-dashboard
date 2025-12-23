@@ -76,7 +76,7 @@ starting_balance = st.sidebar.number_input(
 )
 for tf, enabled in timeframes.items():
     if not enabled:
-        continue
+                   continue
 
 st.sidebar.subheader("📐 Factors")
 
