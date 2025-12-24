@@ -266,7 +266,11 @@ weights = {
     "EMA_signal": 1.0,
     "RSI_signal": 1.0
 }
+st.write(df.columns)
+st.stop()
+
 bias = sma_bias(df["Close"])
+
 
 df["Factor_Score"] = (
     df["SMA_signal"] * weights["SMA_signal"] +
