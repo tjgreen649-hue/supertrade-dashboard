@@ -243,12 +243,12 @@ def supertrade_color(confidence):
 # ==========================
 # FACTOR SIGNALS
 # ==========================
-df.rename(columns={"Price": "Close"}, inplace=True)
-
 df["SMA_signal"] = df.apply(
     lambda x: sma_signal(x["Price"], x["SMA_20"]) if show_sma else 0,
     axis=1
 )
+df.rename(columns={"Price": "Close"}, inplace=True)
+
 df.rename(columns={"Price": "Close"}, inplace=True)
 
 df["EMA_signal"] = df.apply(
