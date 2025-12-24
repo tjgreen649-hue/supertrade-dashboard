@@ -248,6 +248,7 @@ df["SMA_signal"] = df.apply(
     lambda x: sma_signal(x["Price"], x["SMA_20"]) if show_sma else 0,
     axis=1
 )
+df.rename(columns={"Price": "Close"}, inplace=True)
 
 df["EMA_signal"] = df.apply(
     lambda x: ema_signal(x["EMA_20"], x["EMA_50"]) if show_ema else 0,
@@ -266,9 +267,6 @@ weights = {
     "EMA_signal": 1.0,
     "RSI_signal": 1.0
 }
-st.write(df.columns)
-st.stop()
-
 bias = sma_bias(df["Close"])
 
 
