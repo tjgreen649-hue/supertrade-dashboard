@@ -249,8 +249,6 @@ df["SMA_signal"] = df.apply(
 )
 df.rename(columns={"Price": "Close"}, inplace=True)
 
-df.rename(columns={"Price": "Close"}, inplace=True)
-
 df["EMA_signal"] = df.apply(
     lambda x: ema_signal(x["EMA_20"], x["EMA_50"]) if show_ema else 0,
     axis=1
