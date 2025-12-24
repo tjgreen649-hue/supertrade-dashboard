@@ -112,13 +112,12 @@ def timeframe_bias(close_series: pd.Series) -> int:
         return 0
 # --- TIMEFRAME SELECTION ---
 timeframes = {
-    "5m": st.sidebar.checkbox("5m", value=True),
-    "15m": st.sidebar.checkbox("15m", value=True),
-    "30m": st.sidebar.checkbox("30m", value=True),
-    "1h": st.sidebar.checkbox("1h", value=True),
-    "1d": st.sidebar.checkbox("Day", value=True),
+    "5m": st.sidebar.checkbox("5m", value=True, key="tf_5m"),
+    "15m": st.sidebar.checkbox("15m", value=True, key="tf_15m"),
+    "30m": st.sidebar.checkbox("30m", value=True, key="tf_30m"),
+    "1h": st.sidebar.checkbox("1h", value=True, key="tf_1h"),
+    "1d": st.sidebar.checkbox("Day", value=True, key="tf_1d"),
 }
-
 
 show_volume = st.sidebar.checkbox("Show Volume", value=True)
 def sma_bias(close_series):
