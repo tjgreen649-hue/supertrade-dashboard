@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -118,8 +119,7 @@ timeframes = {
     "1h": st.sidebar.checkbox("1h", value=True, key="tf_1h"),
     "1d": st.sidebar.checkbox("Day", value=True, key="tf_1d"),
 }
-
-show_volume = st.sidebar.checkbox("Show Volume", value=True)
+show_volume = st.sidebar.checkbox("Show Volume", value=True, key="show_volume")
 def sma_bias(close_series):
     sma_20 = close_series.rolling(20).mean()
     sma_50 = close_series.rolling(50).mean()
