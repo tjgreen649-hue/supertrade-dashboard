@@ -292,7 +292,7 @@ df["Factor_Score"] = (
 # TRADE TYPE CLASSIFICATION
 # =========================
 df["Trade_Type"] = np.where (
-    df["Profit_Confidence"] = 0
+    df["Profit_Confidence"] >= 0.5
     "SUPER",
     "NORMAL"
 )
