@@ -291,11 +291,7 @@ df["Factor_Score"] = (
 # =========================
 # TRADE TYPE CLASSIFICATION
 # =========================
-df["Trade_Type"] = np.where (
-    df["Profit_Confidence"] >= 0.5,
-    "SUPER",
-    "NORMAL"
-)
+df["High_Confidence"] = df["Profit_Confidence"] >= 0.5
 
 df["SMA_signal"] * weights["SMA_signal"] ( +
     df["EMA_signal"] * weights["EMA_signal"] +
