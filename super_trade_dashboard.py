@@ -291,7 +291,7 @@ df["Factor_Score"] = (
 # =========================
 # TRADE TYPE CLASSIFICATION
 # =========================
-df["High_Confidence"] = df["Profit_Confidence"] >= 0.5
+df["High_Confidence"] = df["Profit_Confidence"] 
 
 df["SMA_signal"] * weights["SMA_signal"] ( +
     df["EMA_signal"] * weights["EMA_signal"] +
