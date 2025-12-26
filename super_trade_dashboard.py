@@ -288,7 +288,6 @@ df["Factor_Score"] = (
 df["SMA_signal"] * weights["SMA_signal"] +
 df["EMA_signal"] * weights["EMA_signal"] +
 df["RSI_signal"] * weights["RSI_signal"]
-)
 # =====================
 # PROFIT CONFIDENCE SCORE (0.0 → 1.0)
 # =====================
