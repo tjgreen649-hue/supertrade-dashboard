@@ -291,7 +291,6 @@ df["Factor_Score"] = (
 # =========================
 # TRADE TYPE CLASSIFICATION
 # =========================
-df["Profit_Confidence"] = df["Profit_Confidence"] 
 
 df["SMA_signal"] * weights["SMA_signal"] ( +
     df["EMA_signal"] * weights["EMA_signal"] +
@@ -626,6 +625,9 @@ price = df.loc[i, "Price"]
 buyers_pct = df.loc[i, "buyers_pct"]
 # --- SAFETY CHECK ---
 df = df.copy()
+# --- Safety init: Profit Confidence ---
+if "Profit_Confidence" not in df.columns:
+    df["Profit_Confidence"] = 0.0
 
 if "Volume" not in df.columns:
     st.error(f"Volume column missing. Columns found: {list(df.columns)}")
