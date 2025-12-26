@@ -462,13 +462,13 @@ volume_colors = np.where(
     "rgba(200,0,0,0.6)"
 )
 
-vol_trace = go.Bar(
+vol_trace = px.line(
     x=df.index,
     y=df["Volume"],
     marker_color=volume_colors,
     name="Volume"
 )
-fig.add_trace(go.Scatter(
+fig.add_trace(px.Scatter(
     x=df.index[df["Super_Trade"]],
     y=df["Close"][df["Super_Trade"]],
     mode="markers",
@@ -517,7 +517,7 @@ df["Candle_Color"] = df.apply(
     if r["Super_Trade"] else "gray",
     axis=1
 )
-fig.add_trace(go.Scatter(
+fig.add_trace(px.Scatter(
     x=df.index[df["Super_Trade"]],
     y=df["Close"][df["Super_Trade"]],
     mode="markers",
