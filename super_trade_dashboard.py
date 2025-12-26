@@ -442,7 +442,13 @@ for i, row in df.iterrows():
             "Price": price,
             "PnL": pnl
         })
-price_fig = go.Figure()
+price_fig = px.line(
+    df,
+    x="date",
+    y="close",
+    title="Price"
+)
+
 
 if show_volume:
     price_fig.add_trace(volume_trace)
