@@ -251,7 +251,6 @@ df["EMA_signal"] = df.apply(
     lambda x: ema_signal(x["EMA_20"], x["EMA_50"]) if show_ema else 0,
     axis=1
 )
-
 df["RSI_signal"] = df["RSI_14"].apply(
     lambda x: rsi_signal(x) if show_rsi else 0
 )
@@ -265,8 +264,6 @@ weights = {
     "RSI_signal": 1.0
 }
 bias = sma_bias(df["Close"])
-
-
 df["Factor_Score"] = (
     df["SMA_signal"] * weights["SMA_signal"] +
     df["EMA_signal"] * weights["EMA_signal"] +
@@ -276,9 +273,7 @@ df["Factor_Score"] = (
 df["Confidence"] = df["Factor_Score"].abs() / (
     sum(weights.values()) + abs(bias)
 )
-
 df["Confidence"] = df["Confidence"].clip(0, 1)
-
 # =====================
 # FACTOR SCORE
 # =====================
@@ -287,11 +282,9 @@ df["Factor_Score"] = (
     df["EMA_signal"] * weights["EMA_signal"] +
     df["RSI_signal"] * weights["RSI_signal"]
 )
-
 # =========================
 # TRADE TYPE CLASSIFICATION
 # =========================
-
 df["SMA_signal"] * weights["SMA_signal"] ( +
     df["EMA_signal"] * weights["EMA_signal"] +
     df["RSI_signal"] * weights["RSI_signal"]
@@ -299,7 +292,6 @@ df["SMA_signal"] * weights["SMA_signal"] ( +
 # =====================
 # PROFIT CONFIDENCE SCORE (0.0 → 1.0)
 # =====================
-
 df["Profit_Confidence"] = (
 df["Factor_Score"].abs() / 4
 ).clip(0, 1)
