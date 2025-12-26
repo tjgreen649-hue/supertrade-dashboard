@@ -443,7 +443,7 @@ for i, row in df.iterrows():
             "PnL": pnl
         })
 if show_price:
-price_fig = px.line(
+    price_fig = px.line(
     df,
     x="date",
     y="close",
