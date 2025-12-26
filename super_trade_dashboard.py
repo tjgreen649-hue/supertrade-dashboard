@@ -442,8 +442,13 @@ for i, row in df.iterrows():
             "Price": price,
             "PnL": pnl
         })
-
-
+price_fig = px.line(
+    df,
+    x="date",
+    y="close",
+    title="Price"
+)
+st.plotly_chart(price_fig, use_container_width=True)
 
 if show_volume:
     price_fig.add_trace(volume_trace)
