@@ -451,7 +451,7 @@ price_fig = px.line(
 st.plotly_chart(price_fig, use_container_width=True)
 
 if show_volume:
-    price_fig.add_trace(volume_trace)
+    volume_fig = px.bar
 equity_curve.append(balance if position == 0 else position * price)
 
 df["Equity"] = equity_curve
