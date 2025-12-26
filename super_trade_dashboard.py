@@ -443,7 +443,7 @@ for i, row in df.iterrows():
             "PnL": pnl
         })
 if show_volume:
-price_fig = go.Figure()
+               price_fig = go.Figure()
 price_fig.add_trace(volume_trace)
 equity_curve.append(balance if position == 0 else position * price)
 
