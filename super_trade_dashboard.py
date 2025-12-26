@@ -445,8 +445,7 @@ for i, row in df.iterrows():
 if show_volume:
     price_fig = go.Figure()
 price_fig.add_trace(volume_trace)
-
-    equity_curve.append(balance if position == 0 else position * price)
+equity_curve.append(balance if position == 0 else position * price)
 
 df["Equity"] = equity_curve
 trades = pd.DataFrame(trade_log)
