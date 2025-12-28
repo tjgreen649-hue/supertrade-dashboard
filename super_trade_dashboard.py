@@ -503,6 +503,7 @@ VOLUME_COL = resolve_column(df, COLUMN_MAP["volume"])
 if CLOSE_COL is None:
     st.error("No close/price column found in data.")
     st.stop()
+st.write("Resolved columns:", OPEN_COL, CLOSE_COL, VOLUME_COL)
 
 volume_colors = np.where(
     df["Close"] >= df["Open"],
