@@ -460,13 +460,17 @@ st.plotly_chart(price_fig, use_container_width=True)
 # ======================
 # VOLUME CHART (SEPARATE)
 # ======================
+if df.empty:
+    st.warning("No data available for volume.")
+    st.stop()
+
 if show_volume and "Volume" in df.columns:
-    volume_fig = px.bar(
-        df,
-        x="date",
-        y="Volume",
-        title="Volume"
-    )
+   volume_fig = px.bar(
+    df,
+    x=df.index,
+    y="Volume",
+    title="Volume"
+)
     st.plotly_chart(volume_fig, use_container_width=True)
 
 equity_curve.append(balance if position == 0 else position * price)
