@@ -471,7 +471,7 @@ if show_volume and "Volume" in df.columns:
     y="Volume",
     title="Volume"
 )
-    st.plotly_chart(volume_fig, use_container_width=True)
+st.plotly_chart(volume_fig, use_container_width=True)
 
 equity_curve.append(balance if position == 0 else position * price)
 
