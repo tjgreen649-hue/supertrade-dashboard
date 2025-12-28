@@ -475,7 +475,7 @@ st.plotly_chart(volume_fig, use_container_width=True)
 equity_curve.append(balance if position == 0 else position * price)
 if len(equity_curve) != len(df):
     st.warning("Equity curve length mismatch — auto-aligning.")
-df["Equity"] = pd.Series(equity_curve, index=df.index)
+df["Equity"] = pd.Series(equity_curve).reindex(df.index)
 trades = pd.DataFrame(trade_log)
 volume_colors = np.where(
     df["Close"] >= df["Open"],
