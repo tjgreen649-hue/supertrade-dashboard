@@ -445,10 +445,14 @@ for i, row in df.iterrows():
 # ======================
 # PRICE CHART
 # ======================
+if df.empty:
+    st.warning("No data available to plot.")
+    st.stop()
+
 price_fig = px.line(
     df,
-    x="date",
-    y="close",
+    x=df.index,
+    y="Close",
     title="Price"
 )
 st.plotly_chart(price_fig, use_container_width=True)
