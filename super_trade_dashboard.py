@@ -477,10 +477,15 @@ if len(equity_curve) != len(df):
     st.warning("Equity curve length mismatch — auto-aligning.")
 df["Equity"] = pd.Series(equity_curve).reindex(df.index)
 trades = pd.DataFrame(trade_log)
-df[CLOSE_COL] >= df[OPEN_COL] if OPEN_COL else True
+if OPEN_COL is not None:
+    up_mask = df[CLOSE_COL] >= df[OPEN_COL]
+else:
+    up_mask = pd.Series(True, index=df.index)
+
 # ===============================
 # Column normalization (NEVER BREAKS)
-# ===============================
+# =============================== 
+
 df.columns = [c.strip().lower() for c in df.columns]
 
 COLUMN_MAP = {
@@ -506,7 +511,7 @@ if CLOSE_COL is None:
 st.write("Resolved columns:", OPEN_COL, CLOSE_COL, VOLUME_COL)
 
 volume_colors = np.where(
-    df["Close"] >= df["Open"],
+    up_mask,
     "rgba(0,200,0,0.6)",
     "rgba(200,0,0,0.6)"
 )
