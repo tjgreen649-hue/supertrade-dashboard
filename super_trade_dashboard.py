@@ -475,7 +475,11 @@ st.plotly_chart(volume_fig, use_container_width=True)
 equity_curve.append(balance if position == 0 else position * price)
 if len(equity_curve) != len(df):
     st.warning("Equity curve length mismatch — auto-aligning.")
-df["Equity"] = pd.Series(equity_curve).reindex(df.index)
+df["Equity"] = pd.Series(
+    equity_curve + [equity_curve[-1]] * (len(df) - len(equity_curve)),
+    index=df.index
+)
+
 trades = pd.DataFrame(trade_log)
 if OPEN_COL is not None:
     up_mask = df[CLOSE_COL] >= df[OPEN_COL]
