@@ -24,7 +24,7 @@ def load_data(symbol: str, period: str, interval: str):
     )
 df = load_data(symbol, timeframe)
 df.dropna(inplace=True)
-    return df
+return df
 # ================================
 # SAFE COLUMN DETECTION (NEVER BREAKS)
 # ================================
