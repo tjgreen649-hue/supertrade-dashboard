@@ -23,8 +23,8 @@ def load_data(symbol: str, period: str, interval: str):
         progress=False
     )
 df = load_data(symbol, timeframe)
-df.dropna(inplace=True)
- return df
+    df.dropna(inplace=True)
+    return df
 # ================================
 # SAFE COLUMN DETECTION (NEVER BREAKS)
 # ================================
