@@ -21,7 +21,8 @@ def load_data(symbol: str, period: str, interval: str):
         period=period,
         interval=interval,
         progress=False
-    )
+)
+
 df = load_data(symbol, timeframe)
     df.dropna(inplace=True)
     return df
