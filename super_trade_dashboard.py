@@ -23,7 +23,8 @@ def load_data(symbol: str, period: str, interval: str):
         progress=False
     )
 df = load_data(symbol, timeframe)
-
+df.dropna(inplace=True)
+    return df
 # ================================
 # SAFE COLUMN DETECTION (NEVER BREAKS)
 # ================================
@@ -42,9 +43,6 @@ OPEN_COL = next(
 if CLOSE_COL is None:
     st.error("No close/price column found in data.")
     st.stop()
-
-    df.dropna(inplace=True)
-    return df
 
 # -----------------------------
 # Header
