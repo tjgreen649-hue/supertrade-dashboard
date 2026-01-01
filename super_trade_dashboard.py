@@ -22,6 +22,26 @@ def load_data(symbol: str, period: str, interval: str):
         interval=interval,
         progress=False
     )
+df = load_data(symbol, timeframe)
+
+# ================================
+# SAFE COLUMN DETECTION (NEVER BREAKS)
+# ================================
+cols = {c.lower(): c for c in df.columns}
+
+CLOSE_COL = next(
+    (cols[c] for c in ["close", "price", "adj close", "last"] if c in cols),
+    None
+)
+
+OPEN_COL = next(
+    (cols[c] for c in ["open"] if c in cols),
+    None
+)
+
+if CLOSE_COL is None:
+    st.error("No close/price column found in data.")
+    st.stop()
 
     df.dropna(inplace=True)
     return df
@@ -479,8 +499,8 @@ df["Equity"] = pd.Series(
     equity_curve + [equity_curve[-1]] * (len(df) - len(equity_curve)),
     index=df.index
 )
-
 trades = pd.DataFrame(trade_log)
+
 if OPEN_COL is not None:
     up_mask = df[CLOSE_COL] >= df[OPEN_COL]
 else:
