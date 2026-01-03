@@ -32,7 +32,14 @@ period = st.sidebar.selectbox(
     index=5
 )
 
+timeframe = st.sidebar.selectbox(
+    "Timeframe",
+    ["5m", "15m", "30m", "1h", "1d"],
+    index=3
+)
+
 df = load_data(symbol, period, timeframe)
+
 # ================================
 # SAFE COLUMN DETECTION (NEVER BREAKS)
 # ================================
