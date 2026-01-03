@@ -2,8 +2,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import yfinance as yf
 import plotly.express as px
+import yfinance as yf
 import pytz
 from datetime import datetime, time, timedelta
 
@@ -44,6 +44,9 @@ timeframe = st.sidebar.selectbox(
 )
 
 df = load_data(symbol, period, timeframe)
+# ---- FIX yfinance MultiIndex columns ----
+if isinstance(df.columns, pd.MultiIndex):
+    df.columns = df.columns.get_level_values(0)
 
 # ================================
 # SAFE COLUMN DETECTION (NEVER BREAKS)
