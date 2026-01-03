@@ -62,7 +62,6 @@ st.caption("Paper trading dashboard • Educational use only")
 # Sidebar Controls
 # -----------------------------
 st.sidebar.header("Controls")
-373 bbB 
 symbol = st.sidebar.selectbox(
     "Select Symbol",
     ["AAPL", "MSFT", "TSLA", "NVDA", "SPY", "QQQ" ]
