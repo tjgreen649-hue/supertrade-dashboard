@@ -25,6 +25,10 @@ def load_data(symbol: str, period: str, interval: str):
     df.dropna(inplace=True)
     return df
 
+symbol = st.sidebar.text_input(
+    "Ticker Symbol",
+    value="SPY"
+).upper()
 
 period = st.sidebar.selectbox(
     "Period",
