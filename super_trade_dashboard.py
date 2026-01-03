@@ -2,8 +2,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
 import yfinance as yf
+import plotly.express as px
 import pytz
 from datetime import datetime, time, timedelta
 
