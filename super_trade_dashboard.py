@@ -25,7 +25,14 @@ def load_data(symbol: str, period: str, interval: str):
     df.dropna(inplace=True)
     return df
 
-df = load_data(symbol, timeframe)
+
+period = st.sidebar.selectbox(
+    "Period",
+    ["1d", "5d", "1mo", "3mo", "6mo", "1y", "2y", "5y", "max"],
+    index=5
+)
+
+df = load_data(symbol, period, timeframe)
 # ================================
 # SAFE COLUMN DETECTION (NEVER BREAKS)
 # ================================
@@ -55,7 +62,7 @@ st.caption("Paper trading dashboard • Educational use only")
 # Sidebar Controls
 # -----------------------------
 st.sidebar.header("Controls")
-
+373 bbB 
 symbol = st.sidebar.selectbox(
     "Select Symbol",
     ["AAPL", "MSFT", "TSLA", "NVDA", "SPY", "QQQ" ]
