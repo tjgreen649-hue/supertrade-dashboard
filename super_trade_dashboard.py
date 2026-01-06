@@ -520,9 +520,10 @@ df["Equity"] = pd.Series(
     index=df.index
 )
 trades = pd.DataFrame(trade_log)
-
-if OPEN_COL is not None:
+if OPEN_COL is not None and OPEN_COL in df.columns:
     up_mask = df[CLOSE_COL] >= df[OPEN_COL]
+if OPEN_COL is not None:
+
 else:
     up_mask = pd.Series(True, index=df.index)
 
