@@ -83,7 +83,7 @@ symbol = st.sidebar.selectbox(
 )
 # ===== Display Toggles =====
 st.sidebar.subheader("Display")
-show_volume = st.sidebar.checkbox("Show Volume", value=True)
+show_volume = st.sidebar.checkbox("Show volume", value=True)
 
 days = st.sidebar.slider(
     "Days of history",
@@ -159,7 +159,7 @@ timeframes = {
     "1h": st.sidebar.checkbox("1h", value=True, key="tf_1h"),
     "1d": st.sidebar.checkbox("Day", value=True, key="tf_1d"),
 }
-show_volume = st.sidebar.checkbox("Show Volume", value=True, key="show_volume")
+show_volume = st.sidebar.checkbox("Show volume", value=True, key="show_volume")
 def sma_bias(close_series):
     sma_20 = close_series.rolling(20).mean()
     sma_50 = close_series.rolling(50).mean()
@@ -561,9 +561,9 @@ volume_colors = np.where(
 
 vol_trace = px.line(
     x=df.index,
-    y=df["Volume"],
+    y=df["volume"],
     marker_color=volume_colors,
-    name="Volume"
+    name="volume"
 )
 fig.add_trace(px.Scatter(
     x=df.index[df["Super_Trade"]],
@@ -589,7 +589,7 @@ col3.metric("Day Change", f"{day_change:.2f}")
 col4.metric("Balance", f"${starting_balance:,.0f}")
 df["Candle_Color"] = np.where(df["Price"] >= df["Price"], "green", "red")
 
-df["Volume_Color"] = np.select(
+df["volume_Color"] = np.select(
     [
         df["Trade_Action"] == "BUY",
         df["Trade_Action"] == "SELL"
@@ -710,11 +710,11 @@ df["bull_ob_low"] = df["Price"].shift(1)
 df["bull_ob_high"] = df["Price"].shift(1)
 
 # =========================
-# BUYERS VS SELLERS (Volume Pressure)
+# BUYERS VS SELLERS (volume Pressure)
 # =========================
 Q
-buy_vol = df["Volume"].where(df["Price"] > df["Price"], 0)
-sell_vol = df["Volume"].where(df["Price"] < df["Price"], 0)
+buy_vol = df["volume"].where(df["Price"] > df["Price"], 0)
+sell_vol = df["volume"].where(df["Price"] < df["Price"], 0)
 
 df["buyers_pct"] = 100 * buy_vol / (buy_vol + sell_vol)
 df["buyers_pct"] = df["buyers_pct"].fillna(50)
@@ -726,8 +726,8 @@ df = df.copy()
 if "Profit_Confidence" not in df.columns:
     df["Profit_Confidence"] = 0.0
 
-if "Volume" not in df.columns:
-    st.error(f"Volume column missing. Columns found: {list(df.columns)}")
+if "volume" not in df.columns:
+    st.error(f"volume column missing. Columns found: {list(df.columns)}")
     st.stop()
 
 # Ensure datetime index
@@ -739,26 +739,26 @@ if not isinstance(df.index, pd.DatetimeIndex):
 # ==========================
 st.subheader("Volume")
 
-if show_volume and "Volume" in df.columns and not df.empty:
+if show_volume and "volume" in df.columns and not df.empty:
     vol_fig = px.bar(
     df,
     x=df.index,
     y="Volume",
     color="Vol_Color",
     color_discrete_map={"green": "green", "red": "red"},
-    title=f"{symbol} Volume"
+    title=f"{symbol} volume"
 )
     
     vol_fig.update_layout(
         xaxis_title="Date / Time (NYSE)",
-        yaxis_title="Volume",
+        yaxis_title="volume",
         height=250,
         margin=dict(l=20, r=20, t=40, b=20)
     )
 
     st.plotly_chart(vol_fig, use_container_width=True)
 else:
-    st.info("Volume hidden or data unavailable.")
+    st.info("volume hidden or data unavailable.")
 
 # -----------------------------
 # Trade Log (Mock)
