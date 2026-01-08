@@ -558,13 +558,19 @@ volume_colors = np.where(
     "rgba(0,200,0,0.6)",
     "rgba(200,0,0,0.6)"
 )
+import plotly.graph_objects as go
 
-vol_trace = px.line(
+vol_trace = go.Scatter(
     x=df.index,
     y=df["volume"],
-    marker_color=volume_colors,
-    name="volume"
+    mode="lines",
+    line=dict(color="rgba(0, 150, 255, 0.6)"),
+    name="Volume"
 )
+
+fig.add_trace(vol_trace)
+
+
 fig.add_trace(px.Scatter(
     x=df.index[df["Super_Trade"]],
     y=df["Close"][df["Super_Trade"]],
