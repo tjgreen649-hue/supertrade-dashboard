@@ -337,6 +337,9 @@ df["Profit_Confidence"] = (
 df["Factor_Score"].abs() / 4
 ).clip(0, 1)
 
+if "Super_Trade" not in df.columns:
+    df["Super_Trade"] = False
+
 df["Trade_Type"] = np.where(
     df["Profit_Confidence"] >= 0.5,
     "SUPER",
