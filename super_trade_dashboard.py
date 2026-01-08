@@ -571,7 +571,7 @@ vol_trace = go.Scatter(
 price_fig.add_trace(vol_trace)
 
 
-fig.add_trace(px.Scatter(
+price_fig.add_trace(px.Scatter(
     x=df.index[df["Super_Trade"]],
     y=df["Close"][df["Super_Trade"]],
     mode="markers",
@@ -620,7 +620,7 @@ df["Candle_Color"] = df.apply(
     if r["Super_Trade"] else "gray",
     axis=1
 )
-fig.add_trace(px.Scatter(
+price_fig.add_trace(px.Scatter(
     x=df.index[df["Super_Trade"]],
     y=df["Close"][df["Super_Trade"]],
     mode="markers",
