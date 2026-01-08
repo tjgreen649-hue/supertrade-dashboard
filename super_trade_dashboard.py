@@ -568,7 +568,7 @@ vol_trace = go.Scatter(
     name="Volume"
 )
 
-fig.add_trace(vol_trace)
+price_fig.add_trace(vol_trace)
 
 
 fig.add_trace(px.Scatter(
@@ -645,7 +645,6 @@ price_fig.update_layout(
     margin=dict(l=20, r=20, t=40, b=20)
 )
 
-# === TRADE MARKERS (ENTRIES / EXITS) ===
 # === TRADE MARKERS (ENTRIES / EXITS) ===
 entries = df[df["entry"] == 1]
 exits   = df[df["exit"] == 1]
