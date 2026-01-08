@@ -573,13 +573,13 @@ vol_trace = go.Scatter(
 
 price_fig.add_trace(vol_trace)
 
-
-price_fig.add_trace(go.Scatter(
-    x=df.index[df["Super_Trade"]],
-    y=df["Close"][df["Super_Trade"]],
-    mode="markers",
-    marker=dict(size=12, color="gold", symbol="star"),
-    name="Super Trade Entry"
+if df["Super_Trade"].any():
+     price_fig.add_trace(go.Scatter(
+     x=df.index[df["Super_Trade"]],
+     y=df["Close"][df["Super_Trade"]],
+     mode="markers",
+     marker=dict(size=12, color="gold", symbol="star"),
+     name="Super Trade Entry"
 ))
 
 # -----------------------------
