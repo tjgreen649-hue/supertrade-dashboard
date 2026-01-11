@@ -250,8 +250,8 @@ df["RSI_14"] = rsi(df["Price"], 14)
 # =========================
 # Super Trade column guard
 # =========================
-if "Super_Trade" not in df.columns:
-    df["Super_Trade"] = False
+if "super_trade" not in df.columns:
+    df["super_trade"] = False
 
 bias = timeframe_bias(df["Price"])
 from datetime import time
@@ -342,17 +342,17 @@ df["Profit_Confidence"] = (
 df["Factor_Score"].abs() / 4
 ).clip(0, 1)
 
-if "Super_Trade" not in df.columns:
-    df["Super_Trade"] = False
+if "super_trade" not in df.columns:
+    df["super_trade"] = False
 
 df["Trade_Type"] = np.where(
     df["Profit_Confidence"] >= 0.5,
-    "SUPER",
+    "super",
     "NORMAL"
 ) 
 df["Volume_Confirm"] = df["Volume"] > df["Volume"].rolling(20).mean()
 
-df["Super_Trade"] = (
+df["super_trade"] = (
     (df["Factor_Score"] > 0.6) &
     df["Volume_Confirm"]
 )
@@ -362,7 +362,7 @@ df["Super_Trade"] = (
 # Trade Type Classification
 df["Trade_Type"] = np.where(
     df["Profit_Confidence"] >= 0.5,
-    "SUPER",
+    "super",
     "NORMAL"
 )
 
@@ -370,29 +370,29 @@ df["Volume_Confirm"] = (
     df["Volume"] > df["Volume"].rolling(20).mean()
 )
 df["Glow"] = np.where(  
-    (df["Trade_Type"] == "SUPER") & (df["Volume_Confirm"]),
+    (df["Trade_Type"] == "super") & (df["Volume_Confirm"]),
      "gold",
      "transparent"
 )
 
-df["Super_Trade"] = (
+df["super_trade"] = (
 df["Profit_Confidence"] >= 0.5 
 ).clip(0, 1)
 # ======================
 # TRADE ACTION
 # ======================
-if df["Super_Trade"].iloc[-1]:
-    st.toast("⚡ SUPER TRADE SIGNAL", icon="⚡")
+if df["super_trade"].iloc[-1]:
+    st.toast("⚡ super trade signal", icon="⚡")
 
 df["Trade_Action"] = "HOLD"
 
 df.loc[
-    (df["Factor_Score"] >= 1.5) & (df["Super_Trade"]),
+    (df["Factor_Score"] >= 1.5) & (df["super_trade"]),
     "Trade_Action"
 ] = "BUY"
 
 df.loc[
-    (df["Factor_Score"] <= -1.5) & (df["Super_Trade"]),
+    (df["Factor_Score"] <= -1.5) & (df["super_trade"]),
     "Trade_Action"
 ] = "SELL"
 df["Profit_Window"] = "None"
@@ -447,7 +447,7 @@ df["entry"] = (df["signal"] == 1) & (df["signal_shift"] != 1)
 df["exit"]  = (df["signal"] == -1) & (df["signal_shift"] != -1)
 def classify_trade(row):
     if row["Factor_Score"] >= 80 and row["Volume_Confirm"]:
-        return "SUPER"
+        return "super"
     elif row["Trade_Action"] in ["BUY", "SELL"]:
         return "NORMAL"
     return "NONE"
@@ -578,13 +578,13 @@ vol_trace = go.Scatter(
 
 price_fig.add_trace(vol_trace)
 
-if df["Super_Trade"].any():
+if df["S=super_trade"].any():
      price_fig.add_trace(go.Scatter(
-     x=df.index[df["Super_Trade"]],
-     y=df["Close"][df["Super_Trade"]],
+     x=df.index[df["super_trade"]],
+     y=df["Close"][df["super_trade"]],
      mode="markers",
      marker=dict(size=12, color="gold", symbol="star"),
-     name="Super Trade Entry"
+     name="super trade entry"
 ))
 
 # -----------------------------
@@ -625,15 +625,15 @@ def supertrade_color(conf):
     return f"rgb({r},{g},{b})"
 df["Candle_Color"] = df.apply(
     lambda r: supertrade_color(r["Profit_Confidence"])
-    if r["Super_Trade"] else "gray",
+    if r["super_trade"] else "gray",
     axis=1
 )
 price_fig.add_trace(px.Scatter(
-    x=df.index[df["Super_Trade"]],
-    y=df["Close"][df["Super_Trade"]],
+    x=df.index[df["super_trade"]],
+    y=df["Close"][df["super_trade"]],
     mode="markers",
     marker=dict(size=12, color="gold", symbol="star"),
-    name="Super Trade Entry"
+    name="super trade entry"
 ))
 st.metric("Signal Confidence", f"{df['Confidence'].iloc[-1]*100:.1f}%")
 
