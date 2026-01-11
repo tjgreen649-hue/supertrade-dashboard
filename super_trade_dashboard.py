@@ -578,7 +578,7 @@ vol_trace = go.Scatter(
 
 price_fig.add_trace(vol_trace)
 
-if df["S=super_trade"].any():
+if df["super_trade"].any():
      price_fig.add_trace(go.Scatter(
      x=df.index[df["super_trade"]],
      y=df["Close"][df["super_trade"]],
