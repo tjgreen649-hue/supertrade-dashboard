@@ -243,17 +243,17 @@ df = df.set_index("Date")
 # INDICATOR CALCULATIONS
 # ==========================
 
-df["SMA_20"] = sma(df["Price"], 20)
-df["EMA_20"] = ema(df["Price"], 20)
-df["EMA_50"] = ema(df["Price"], 50)
-df["RSI_14"] = rsi(df["Price"], 14)
+df["SMA_20"] = sma(df["price"], 20)
+df["EMA_20"] = ema(df["price"], 20)
+df["EMA_50"] = ema(df["price"], 50)
+df["RSI_14"] = rsi(df["price"], 14)
 # =========================
 # Super Trade column guard
 # =========================
 if "super_trade" not in df.columns:
     df["super_trade"] = False
 
-bias = timeframe_bias(df["Price"])
+bias = timeframe_bias(df["price"])
 from datetime import time
 import pytz
 
@@ -289,8 +289,8 @@ def supertrade_color(confidence):
 # FACTOR SIGNALS
 # ==========================
 df["SMA_signal"] = df.apply(
-    lambda x: sma_signal(x["Price"], x["SMA_20"]) if show_sma else 0,axis=1)
-df.rename(columns={"Price": "Close"}, inplace=True)
+    lambda x: sma_signal(x["price"], x["SMA_20"]) if show_sma else 0,axis=1)
+df.rename(columns={"price": "Close"}, inplace=True)
 
 df["EMA_signal"] = df.apply(
     lambda x: ema_signal(x["EMA_20"], x["EMA_50"]) if show_ema else 0,
@@ -487,7 +487,7 @@ for i, row in df.iterrows():
             "Date": row.name.tz_convert("America/New_York"),
 
             "Type": "SELL",
-            "Price": price,
+            "price": price,
             "PnL": pnl
         })
 # ======================
@@ -501,7 +501,7 @@ price_fig = px.line(
     df,
     x=df.index,
     y="Close",
-    title="Price"
+    title="price"
 )
 st.plotly_chart(price_fig, use_container_width=True)
 
@@ -593,15 +593,15 @@ if df["super_trade"].any():
 col1, col2, col3, col4 = st.columns(4)
 
 col1.metric("Symbol", symbol)
-col2.metric("Last Price", f"${price:.2f}")
+col2.metric("Last price", f"${price:.2f}")
 if len(df) >= 2:
-    day_change = df["Price"].iloc[-1] - df["Price"].iloc[-2]
+    day_change = df["price"].iloc[-1] - df["price"].iloc[-2]
 else:
     day_change = 0.0
 
 col3.metric("Day Change", f"{day_change:.2f}")
 col4.metric("Balance", f"${starting_balance:,.0f}")
-df["Candle_Color"] = np.where(df["Price"] >= df["Price"], "green", "red")
+df["Candle_Color"] = np.where(df["price"] >= df["price"], "green", "red")
 
 df["volume_Color"] = np.select(
     [
@@ -641,14 +641,14 @@ st.metric("Signal Confidence", f"{df['Confidence'].iloc[-1]*100:.1f}%")
 price_fig = px.line(
     df,
     x=df.index,
-    y="Price",
-    title=f"{symbol} Price History",
+    y="price",
+    title=f"{symbol} price History",
     markers=True
 )
 
 price_fig.update_layout(
     xaxis_title="Date / Time (NYSE)",
-    yaxis_title="Price",
+    yaxis_title="price",
     height=400,
     margin=dict(l=20, r=20, t=40, b=20)
 )
@@ -660,7 +660,7 @@ exits   = df[df["exit"] == 1]
 if not entries.empty:
     price_fig.add_scatter(
         x=entries.index,
-        y=entries["Price"],
+        y=entries["price"],
         mode="markers",
         name="Entry",
         marker=dict(symbol="triangle-up", size=12, color="green")
@@ -669,14 +669,14 @@ if not entries.empty:
 if not exits.empty:
     price_fig.add_scatter(
         x=exits.index,
-        y=exits["Price"],
+        y=exits["price"],
         mode="markers",
         name="Exit",
         marker=dict(symbol="triangle-down", size=12, color="red")
     )
 price_fig.update_layout(
     xaxis_title="Date / Time (NYSE)",
-    yaxis_title="Price",
+    yaxis_title="price",
     height=400,
     margin=dict(l=20, r=20, t=40, b=20)
 )
@@ -710,7 +710,7 @@ st.plotly_chart(score_fig, use_container_width=True)
 # =========================
 
 # Market Structure Break (simple swing logic)
-df["swing_high"] = df["Price"] > df["Price"].shift(1)
+df["swing_high"] = df["price"] > df["price"].shift(1)
 df["swing_low"] = df["Price"] < df["Price"].shift(1)
 
 df["bull_msb"] = (
