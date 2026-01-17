@@ -44,6 +44,8 @@ timeframe = st.sidebar.selectbox(
 )
 
 df = load_data(symbol, period, timeframe)
+# --- Normalize column names ---
+df.columns = [c.lower() for c in df.columns]
 # ---- FIX yfinance MultiIndex columns ----
 if isinstance(df.columns, pd.MultiIndex):
     df.columns = df.columns.get_level_values(0)
