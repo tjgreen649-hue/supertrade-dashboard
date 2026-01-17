@@ -51,6 +51,31 @@ if isinstance(df.columns, pd.MultiIndex):
 
 # --- Normalize column names ---
 df.columns = [str(c).lower() for c in df.columns]
+# --- Force standard OHLCV mapping ---
+col_map = {}
+
+for c in df.columns:
+    cl = c.lower()
+    if "open" in cl:
+        col_map[c] = "open"
+    elif "high" in cl:
+        col_map[c] = "high"
+    elif "low" in cl:
+        col_map[c] = "low"
+    elif "close" in cl or "adj close" in cl:
+        col_map[c] = "close"
+    elif "volume" in cl:
+        col_map[c] = "volume"
+
+df = df.rename(columns=col_map)
+
+required = {"open", "high", "low", "close", "volume"}
+missing = required - set(df.columns)
+
+if missing:
+    st.error(f"Missing required columns: {sorted(missing)}")
+    st.write("Available columns:", df.columns.tolist())
+    st.stop()
 
 # ---- FIX yfinance MultiIndex columns ----
 if isinstance(df.columns, pd.MultiIndex):
