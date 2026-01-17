@@ -243,10 +243,10 @@ df = df.set_index("Date")
 # INDICATOR CALCULATIONS
 # ==========================
 
-df["SMA_20"] = sma(df["price"], 20)
-df["EMA_20"] = ema(df["price"], 20)
-df["EMA_50"] = ema(df["price"], 50)
-df["RSI_14"] = rsi(df["price"], 14)
+df["SMA_20"] = sma(df["close"], 20)
+df["EMA_20"] = ema(df["close"], 20)
+df["EMA_50"] = ema(df["close"], 50)
+df["RSI_14"] = rsi(df["close"], 14)
 # =========================
 # Super Trade column guard
 # =========================
