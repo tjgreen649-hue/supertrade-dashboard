@@ -242,11 +242,17 @@ df = df.set_index("Date")
 # ==========================
 # INDICATOR CALCULATIONS
 # ==========================
+REQUIRED_COLS = ["open", "high", "low", "close", "volume"]
+missing = [c for c in REQUIRED_COLS if c not in df.columns]
 
-df["SMA_20"] = sma(df["close"], 20)
-df["EMA_20"] = ema(df["close"], 20)
-df["EMA_50"] = ema(df["close"], 50)
-df["RSI_14"] = rsi(df["close"], 14)
+if missing:
+    st.error(f"Missing required columns: {missing}")
+    st.stop()
+
+df["sma_20"] = sma(df["close"], 20)
+df["ema_20"] = ema(df["close"], 20)
+df["ema_50"] = ema(df["close"], 50)
+df["rsi_14"] = rsi(df["close"], 14)
 # =========================
 # Super Trade column guard
 # =========================
